@@ -2,7 +2,7 @@
 
 Tech Stack: React, TypeScript. Styling: Tailwind, MUI, or CSS/SASS
 
-### Level 1: Basic Requirements
+## Level 1: Basic Requirements
 
 **Pages to Create:**
 
