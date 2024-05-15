@@ -1,6 +1,7 @@
 // import { Product } from "@/pages/Product"
 import { Home } from "@/pages/Home"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
+
 import Navbar from "@/components/layout/navigation/Navigationbar"
 import Dashboard from "@/pages/Dashboard"
 import Products from "@/components/products/Products"
