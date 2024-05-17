@@ -9,10 +9,11 @@ const Category = () => {
           <input type="radio" value="" name="test" />
           <span className="checkmark"></span>All
         </label>
-        <input value="value here" title="title here" name="test" />
-        <input value="value here" title="title here" name="test" />
-        <input value="value here" title="title here" name="test" />
-        <input value="value here" title="title here" name="test" />
+        <input title="title here" name="test" />
+        <input title="title here" name="test" />
+        <input title="title here" name="test" />
+        <input title="title here" name="test" />
+        {/* <input value="value here" title="title here" name="test" /> */}
       </div>
     </div>
   )

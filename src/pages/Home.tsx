@@ -1,10 +1,8 @@
-// import PageTitle from "@/components/PageTitle"
-import Products from "@/components/products/Products"
-import React from "react"
-
+import PageTitle from "@/components/PageTitle"
 export const Home = () => {
   return (
     <>
+    <PageTitle title="Home" />
       <section className="jumbotron">
         <div className="container text-center">
           <h1 className="display-4">The New Internet</h1>
@@ -20,7 +18,6 @@ export const Home = () => {
           </a>
         </div>
       </section>
-      <Products />
     </>
   )
 }

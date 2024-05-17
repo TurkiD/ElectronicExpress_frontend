@@ -6,7 +6,6 @@ const Dashboard = () => {
     <>
       <PageTitle title="Dashboard" />
       <DashboardBar />
-      
     </>
   )
 }

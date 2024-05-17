@@ -24,6 +24,7 @@ function NavigationBar() {
         <Container>
           <Navbar.Brand href="/">Home</Navbar.Brand>
           <Nav className="me-auto">
+            <Nav.Link href="/products">Products</Nav.Link>
             <Nav.Link href="/contact-us">Contact Us</Nav.Link>
             <Nav.Link href="/dashboard">Dashboard</Nav.Link>
           </Nav>
