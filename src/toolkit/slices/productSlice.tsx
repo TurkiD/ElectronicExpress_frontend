@@ -12,11 +12,11 @@ const initialState: ProductState = {
 
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
-  async ({ pageNumber, pageSize, searchTerm }: { pageNumber: number; pageSize: number; searchTerm: string }) => {
+  async ({ pageNumber, pageSize, searchTerm, sortBy }: { pageNumber: number; pageSize: number; searchTerm: string; sortBy: string }) => {
     const response = 
     searchTerm.length > 0
-    ? await api.get(`/products?pageNumber=${pageNumber}&pageSize=${pageSize}&searchTerm=${searchTerm}`)
-    : await api.get(`/products?pageNumber=${pageNumber}&pageSize=${pageSize}`)
+    ? await api.get(`/products?pageNumber=${pageNumber}&pageSize=${pageSize}&searchTerm=${searchTerm}&sortBy=${sortBy}`)
+    : await api.get(`/products?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}`)
     return response.data
   }
 )

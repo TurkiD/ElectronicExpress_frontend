@@ -17,13 +17,14 @@ const AllProducts = () => {
   const [pageNumber, setPageNumber] = useState(1)
   const [pageSize, setPageSize] = useState(10)
   const [searchTerm, setSearchTerm] = useState("")
+  const [sortBy, setSortBy] = useState("Name")
 
   useEffect(() => {
     const fetchData = async () => {
-      await dispatch(fetchProducts({ pageNumber, pageSize, searchTerm }))
+      await dispatch(fetchProducts({ pageNumber, pageSize, searchTerm, sortBy }))
     }
     fetchData()
-  }, [pageNumber, searchTerm])
+  }, [pageNumber, searchTerm, sortBy])
 
   const handlePreviousPage = () => {
     setPageNumber((currentPage) => currentPage - 1)
@@ -34,6 +35,9 @@ const AllProducts = () => {
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value)
   }
+  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSortBy(e.target.value)
+  }
 
   return (
     <>
@@ -41,6 +45,11 @@ const AllProducts = () => {
       {error && <p>Error{error}</p>}
       <div className="search-container">
         <input type="text" placeholder="Search Products" value={searchTerm} onChange={handleSearchChange}/>
+        <select onChange={handleSortChange}>
+          <option value="name">Name</option>
+          <option value="price">Price</option>
+          <option value="date">Date</option>
+        </select>
       </div>
       <section className="card-container">
         {products &&
