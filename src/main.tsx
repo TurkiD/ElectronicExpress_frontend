@@ -1,6 +1,4 @@
 import App from "./App"
-import "./components/ProductCard/Products.css"
-// import "./index.css"
 
 import ReactDOM from "react-dom/client"
 import { Provider } from "react-redux"
