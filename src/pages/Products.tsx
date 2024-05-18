@@ -1,14 +1,20 @@
 import PageTitle from "@/components/PageTitle"
-import AllProducts from "@/components/products/AllProducts"
-import  Sidebar  from "../components/layout/sidebars/Sidebar"
+import AllProducts from "@/components/ProductCard/AllProducts"
+import Sidebar from "../components/Sidebars/Sidebar"
 
 const Products = () => {
   return (
-    <>
-      <PageTitle title="Products" />
-      {/* <Sidebar /> */}
-      <AllProducts />
-    </>
+    <div>
+      <div className="container">
+        <PageTitle title="Products" />
+        <div className="sidebar-container">
+          <Sidebar />
+        </div>
+        <div className="main-container">
+          <AllProducts />
+        </div>
+      </div>
+    </div>
   )
 }
 

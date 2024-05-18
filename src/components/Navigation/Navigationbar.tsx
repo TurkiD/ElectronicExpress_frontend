@@ -7,7 +7,7 @@ function NavigationBar() {
   <nav className="navbar navbar-expand-xl navbar-light bg-light-light py-4">
     <div className="container">
       <a className="navbar-brand navbar-nav mx-auto position-absolute top-50 start-50 translate-middle" href="#">
-        <img className="img-fluid" src="asitrastudio-assets/logos/logo-asi.svg" alt="" />
+        <img className="img-fluid" src="" alt="" />
       </a>
       <button className="d-xl-none navbar-burger btn px-0 rounded-pill" style={{"border": "none"}} type="button" data-bs-toggle="collapse" data-bs-target="#nav01" aria-controls="nav01" aria-expanded="false">
         <svg width="44" height="16" viewBox="0 0 44 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="44" height="2" rx="1" fill="black"></rect><rect y="14" width="44" height="2" rx="1" fill="black"></rect></svg>

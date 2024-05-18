@@ -1,6 +1,6 @@
-import Category from "./category/Category"
-import Colors from "./colors/Colors"
+import Category from "./Category/Category"
 import "./Sidebar.css"
+import Colors from "./colors/Colors"
 
 const Sidebar = () => {
   return (

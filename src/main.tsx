@@ -1,5 +1,5 @@
 import App from "./App"
-import "./components/products/Products.css"
+import "./components/ProductCard/Products.css"
 // import "./index.css"
 
 import ReactDOM from "react-dom/client"

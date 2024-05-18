@@ -1,5 +1,5 @@
 import PageTitle from "@/components/PageTitle"
-import DashboardBar from "@/components/layout/navigation/DashboardBar"
+import DashboardBar from "@/components/Navigation/DashboardBar"
 
 const Dashboard = () => {
   return (

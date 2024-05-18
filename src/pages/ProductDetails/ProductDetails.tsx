@@ -259,7 +259,7 @@ export const ProductDetails = () => {
                 </a>
               </div>
             </div>
-            <h3 className="mb-8 text-info">{product.productName}</h3>
+            <h3 className="mb-8 text-black">{product.productName}</h3>
             <p className="mw-2xl text-secondary">
               {product.description}
             </p>
