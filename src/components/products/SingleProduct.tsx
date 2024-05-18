@@ -6,18 +6,18 @@ const SingleProduct = (props: { product: Product }) => {
   const { product } = props
 
   return (
-    <Link to={`/product/${product.productID}`}>
+    <Link className="text-decoration-none" to={`/product/${product.productID}`}>
       <section className="card">
         <img className="card-img" src={product.image} alt={product.productName} />
         <div className="card-details">
-          <h3 className="card-title">name</h3>
+          <h3 className="card-title">{product.productName}</h3>
           <section className="card-review">
             <p>review here</p>
             <span className="total-review">total review here</span>
           </section>
           <section className="card-price">
             <div className="price">
-              <del>SAR500</del> SAR200
+              <del>SAR{product.price}</del> SAR200
             </div>
             <div className="bag">
               <FaBagShopping className="bag-icon" />

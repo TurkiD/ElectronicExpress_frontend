@@ -2,7 +2,7 @@ import PageTitle from "@/components/PageTitle"
 export const Home = () => {
   return (
     <>
-    <PageTitle title="Home" />
+      <PageTitle title="Home" />
       <section className="jumbotron">
         <div className="container text-center">
           <h1 className="display-4">The New Internet</h1>

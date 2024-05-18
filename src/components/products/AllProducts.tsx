@@ -18,21 +18,17 @@ const AllProducts = () => {
     fetchData()
   }, [])
 
-
   return (
-    <div className="">
-      {/* <Sidebar /> */}
-      <section>
-        
-      </section>
+    <>
+      <Sidebar />
       <section className="card-container">
         {isLoading && <p>Loading...</p>}
         {error && <p>Error{error}</p>}
         {products &&
           products.length > 0 &&
-          products.map((product) => <SingleProduct key={product.productID} product={product}/>)}
+          products.map((product) => <SingleProduct key={product.productID} product={product} />)}
       </section>
-    </div>
+    </>
   )
 }
 
