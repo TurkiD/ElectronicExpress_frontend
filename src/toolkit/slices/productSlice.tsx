@@ -4,15 +4,22 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
 const initialState: ProductState = {
   products: [],
+  totalPages: 1,
   product: null,
   error: null,
   isLoading: false
 }
 
-export const fetchProducts = createAsyncThunk("products/fetchProducts", async () => {
-  const response = await api.get(`/products`)
-  return response.data
-})
+export const fetchProducts = createAsyncThunk(
+  "products/fetchProducts",
+  async ({ pageNumber, pageSize, searchTerm }: { pageNumber: number; pageSize: number; searchTerm: string }) => {
+    const response = 
+    searchTerm.length > 0
+    ? await api.get(`/products?pageNumber=${pageNumber}&pageSize=${pageSize}&searchTerm=${searchTerm}`)
+    : await api.get(`/products?pageNumber=${pageNumber}&pageSize=${pageSize}`)
+    return response.data
+  }
+)
 
 export const fetchProductById = createAsyncThunk(
   "products/fetchProductById",
@@ -28,12 +35,9 @@ const productSlice = createSlice({
   reducers: {},
 
   extraReducers(builder) {
-    builder.addCase(fetchProducts.pending, (state) => {
-      state.error = null
-      state.isLoading = true
-    })
     builder.addCase(fetchProducts.fulfilled, (state, action) => {
       state.products = action.payload.items.$values
+      state.totalPages = action.payload.totalPages
       state.error = null
       state.isLoading = false
     })

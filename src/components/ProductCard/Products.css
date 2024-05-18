@@ -51,3 +51,13 @@
 .bag-icon {
   color: #535353;
 }
+
+.btn-container {
+  display: flex;
+  justify-content: center;
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+}

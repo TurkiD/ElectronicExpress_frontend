@@ -1,32 +1,65 @@
 import SingleProduct from "./ProductCard"
 import "./Products.css"
 
-import { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "@/toolkit/Store"
 import { fetchProducts } from "@/toolkit/slices/productSlice"
+import { Button } from "react-bootstrap"
 
 const AllProducts = () => {
-  const { products, isLoading, error } = useSelector((state: RootState) => state.productR)
+  const { products, isLoading, error, totalPages } = useSelector(
+    (state: RootState) => state.productR
+  )
 
   const dispatch: AppDispatch = useDispatch()
 
+  const [pageNumber, setPageNumber] = useState(1)
+  const [pageSize, setPageSize] = useState(10)
+  const [searchTerm, setSearchTerm] = useState("")
+
   useEffect(() => {
     const fetchData = async () => {
-      await dispatch(fetchProducts())
+      await dispatch(fetchProducts({ pageNumber, pageSize, searchTerm }))
     }
     fetchData()
-  }, [])
+  }, [pageNumber, searchTerm])
+
+  const handlePreviousPage = () => {
+    setPageNumber((currentPage) => currentPage - 1)
+  }
+  const handleNextPage = () => {
+    setPageNumber((currentPage) => currentPage + 1)
+  }
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value)
+  }
 
   return (
     <>
+      {isLoading && <p>Loading...</p>}
+      {error && <p>Error{error}</p>}
+      <div className="search-container">
+        <input type="text" placeholder="Search Products" value={searchTerm} onChange={handleSearchChange}/>
+      </div>
       <section className="card-container">
-        {isLoading && <p>Loading...</p>}
-        {error && <p>Error{error}</p>}
         {products &&
           products.length > 0 &&
           products.map((product) => <SingleProduct key={product.productID} product={product} />)}
       </section>
+      <div className="btn-container">
+        <Button onClick={handlePreviousPage} disabled={pageNumber === 1}>
+          Previous
+        </Button>
+        {Array.from({ length: totalPages }, (_, index) => (
+          <Button key={index} onClick={() => setPageNumber(index + 1)}>
+            {index + 1}
+          </Button>
+        ))}
+        <Button onClick={handleNextPage} disabled={pageNumber === totalPages}>
+          Next
+        </Button>
+      </div>
     </>
   )
 }
