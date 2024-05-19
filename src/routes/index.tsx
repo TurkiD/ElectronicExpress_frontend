@@ -1,8 +1,5 @@
-import { Home } from "@/pages/Home/Home"
-import { ProductDetails } from "@/pages/ProductDetails/ProductDetails"
 import Navbar from "@/components/Navigation/Navigationbar"
-import Products from "@/pages/Products/Products"
-import Dashboard from "@/pages/Dashboard/Dashboard"
+import { Dashboard, Home, Login, ProductDetails, Products, Register } from "@/pages"
 
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 
@@ -15,6 +12,8 @@ export const Index = () => {
           <Route path="/" element={<Home />} />
           <Route path="products" element={<Products />} />
           <Route path="/product/:identifier" element={<ProductDetails />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </main>

@@ -1,0 +1,6 @@
+export { Home } from "./Home/Home"
+export { ProductDetails } from "./ProductDetails/ProductDetails"
+export { Dashboard } from "./Dashboard/Dashboard"
+export { Products } from "./Products/Products"
+export { Register } from "./Register/Register"
+export { Login } from "./Login/Login"

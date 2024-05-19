@@ -1,7 +1,7 @@
 import PageTitle from "@/components/PageTitle"
 import DashboardBar from "@/components/Navigation/DashboardBar"
 
-const Dashboard = () => {
+export const Dashboard = () => {
   return (
     <>
       <PageTitle title="Dashboard" />
@@ -9,5 +9,3 @@ const Dashboard = () => {
     </>
   )
 }
-
-export default Dashboard

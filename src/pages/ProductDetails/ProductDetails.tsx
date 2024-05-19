@@ -170,7 +170,7 @@ export const ProductDetails = () => {
                       </button>
                     </div>
                   </div>
-                  <div>
+                  {/* <div>
                     <span className="d-block mb-4 fw-bold text-secondary text-uppercase">Size</span>
                     <select
                       className="form-select border ps-6 pe-10 py-4 fw-bold text-secondary"
@@ -181,13 +181,16 @@ export const ProductDetails = () => {
                       <option value="2">Small</option>
                       <option value="3">Large</option>
                     </select>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="row mb-14">
                   <div className="col-12 col-xl-8 mb-4 mb-xl-0">
-                    <a className="btn w-100 btn-primary mt-2" href="#">
+                    <button className="btn w-100 btn-primary mt-2">
                       Add to cart
-                    </a>
+                    </button>
+                    {/* <a className="btn w-100 btn-primary mt-2" href="#">
+                      Add to cart
+                    </a> */}
                   </div>
                   <div className="col-12 col-xl-4">
                     <a

@@ -4,7 +4,7 @@ const Category = () => {
   return (
     <div>
       <h2 className="sidebar-title">Category</h2>
-      <div className="container">
+      <div className="category-container">
         <label className="sidebar-label-container">
           <input type="radio" value="" name="test" />
           <span className="checkmark"></span>All

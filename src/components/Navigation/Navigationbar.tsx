@@ -19,12 +19,12 @@ function NavigationBar() {
         </ul>
         <ul className="navbar-nav me-4">
           <li className="nav-item me-4"><a className="nav-link" href="/Dashboard">Dashboard</a></li>
-          <li className="nav-item"><a className="nav-link" href="/sign-in">Sign in</a></li>
+          <li className="nav-item"><a className="nav-link" href="/login">Sign in</a></li>
         </ul>
         <div>
-          <a className="btn btn-outline-dark d-flex align-items-center rounded-pill" href="/sign-up">
+          <a className="btn btn-outline-dark d-flex align-items-center rounded-pill" href="/register">
             <span className="me-3">Sign up</span>
-            <svg className="rotate-45" width="10" height="11" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg className="rotate-45" width="10" height="11" viewBox="0 0 10 11" fill="none" xmlns="">
               <path d="M9 1.5L1 9.5" stroke="currentColor" strokeWidth="1.3" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"></path>
               <path d="M9 8.83571V1.5H1.66429" stroke="currentColor" strokeWidth="1.3" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"></path>
             </svg>

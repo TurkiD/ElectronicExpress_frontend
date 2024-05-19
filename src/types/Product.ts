@@ -1,11 +1,11 @@
 export type Product = {
-  $id: string;
   productID: string;
   productName: string;
   description: string;
   image: string;
   quantity: number;
   price: number;
+  // createdAt: string;
   categoryID: string;
 }
 

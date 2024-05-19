@@ -9,7 +9,7 @@
   margin-top: 20px;
 }
 
-.container {
+.category-container {
   display: flex;
   justify-content: center;
   flex-direction: column;

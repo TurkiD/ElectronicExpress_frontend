@@ -36,7 +36,7 @@ const productSlice = createSlice({
 
   extraReducers(builder) {
     builder.addCase(fetchProducts.fulfilled, (state, action) => {
-      state.products = action.payload.items.$values
+      state.products = action.payload.items
       state.totalPages = action.payload.totalPages
       state.error = null
       state.isLoading = false

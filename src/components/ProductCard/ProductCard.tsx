@@ -17,7 +17,8 @@ const SingleProduct = (props: { product: Product }) => {
           </section>
           <section className="card-price">
             <div className="price">
-              <del>SAR{product.price}</del> SAR200
+              SAR{product.price}
+              {/* <del>SAR{product.price}</del> SAR200 */}
             </div>
             <div className="bag">
               <FaBagShopping className="bag-icon" />
