@@ -1,5 +1,5 @@
 import { AppDispatch } from "@/toolkit/Store"
-import { loginUser, registerUser } from "@/toolkit/slices/userSlice"
+import { loginUser } from "@/toolkit/slices/userSlice"
 import { LoginFormData } from "@/types/User"
 import { Button } from "react-bootstrap"
 import { SubmitHandler, useForm } from "react-hook-form"
@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 
-export const Login = () => {
+export const LoginPage = () => {
   const navigate = useNavigate()
   const dispatch: AppDispatch = useDispatch()
   const {

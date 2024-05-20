@@ -1,5 +1,5 @@
 import PageTitle from "@/components/PageTitle"
-export const Home = () => {
+export const HomePage = () => {
   return (
     <>
       <PageTitle title="Home" />

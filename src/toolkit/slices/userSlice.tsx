@@ -2,10 +2,10 @@ import api from "@/api"
 import { LoginFormData, User, UserState } from "@/types/User"
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
-const data = 
+const data =
   localStorage.getItem("loginData") != null
-  ? JSON.parse(String(localStorage.getItem("loginData")))
-  : []
+    ? JSON.parse(String(localStorage.getItem("loginData")))
+    : []
 
 const initialState: UserState = {
   //   users: [],
@@ -48,16 +48,19 @@ const userSlice = createSlice({
   extraReducers(builder) {
     builder.addCase(loginUser.fulfilled, (state, action) => {
       state.isLoggedIn = true
-      state.userData = action.payload.data.user
+      // console.log(action.payload.data);
+      // console.log(action.payload.data.token);
+      
+      state.userData = action.payload.data.loggedInUser
       state.token = action.payload.data.token
-        localStorage.setItem(
-          "loginData",
-          JSON.stringify({
-            isLoggedIn: state.isLoggedIn,
-            userData: state.userData,
-            token: state.token
-          })
-        )
+      localStorage.setItem(
+        "loginData",
+        JSON.stringify({
+          isLoggedIn: state.isLoggedIn,
+          userData: state.userData,
+          token: state.token
+        })
+      )
     })
 
     builder.addMatcher(
@@ -75,7 +78,8 @@ const userSlice = createSlice({
         state.isLoading = false
       }
     )
-  },
+  }
 })
 
+export const { LogoutUser } = userSlice.actions
 export default userSlice.reducer

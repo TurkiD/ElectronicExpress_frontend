@@ -13,7 +13,7 @@ type FormData = {
   image: string
 }
 
-export const Register = () => {
+export const RegisterPage = () => {
   const navigate = useNavigate()
   const dispatch: AppDispatch = useDispatch()
   const {

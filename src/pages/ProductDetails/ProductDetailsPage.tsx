@@ -5,7 +5,7 @@ import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 
-export const ProductDetails = () => {
+export const ProductDetailsPage = () => {
   const { identifier } = useParams<{ identifier: string }>()
 
   const { product, isLoading, error } = useSelector((state: RootState) => state.productR)

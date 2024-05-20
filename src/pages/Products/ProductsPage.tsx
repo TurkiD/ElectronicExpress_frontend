@@ -1,8 +1,8 @@
 import PageTitle from "@/components/PageTitle"
 import AllProducts from "@/components/ProductCard/AllProducts"
-import "./Products.css"
+import "./ProductsPage.css"
 
-export const Products = () => {
+export const ProductsPage = () => {
   return (
     <>
       <PageTitle title="Products" />

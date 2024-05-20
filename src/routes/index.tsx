@@ -1,5 +1,5 @@
-import Navbar from "@/components/Navigation/Navigationbar"
-import { Dashboard, Home, Login, ProductDetails, Products, Register } from "@/pages"
+import Navbar from "@/components/Navigation/NavigationBar"
+import { DashboardPage, HomePage, LoginPage, ProductDetailsPage, ProductsPage, RegisterPage } from "@/pages"
 
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 
@@ -9,12 +9,12 @@ export const Index = () => {
       <main>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="products" element={<Products />} />
-          <Route path="/product/:identifier" element={<ProductDetails />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="products" element={<ProductsPage />} />
+          <Route path="/product/:identifier" element={<ProductDetailsPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
         </Routes>
       </main>
     </BrowserRouter>

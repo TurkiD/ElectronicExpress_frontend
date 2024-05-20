@@ -1,13 +1,11 @@
-import { Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom"
 
-import { Login } from "@/pages/Login/Login";
-import useUsersState from "@/hooks/useUsersState";
+import { LoginPage } from "@/pages/Login/LoginPage"
+import useUsersState from "@/hooks/useUsersState"
 
-
-
-const ProtecedRoute = () => {
-    const { isLoggedIn } = useUsersState()
-    return isLoggedIn ? <Outlet /> : <Login />
+const ProtectedRoute = () => {
+  const { isLoggedIn } = useUsersState()
+  return isLoggedIn ? <Outlet /> : <LoginPage />
 }
 
-export default ProtecedRoute
+export default ProtectedRoute

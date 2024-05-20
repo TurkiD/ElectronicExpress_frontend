@@ -1,7 +1,16 @@
 
 import "bootstrap/dist/css/bootstrap.min.css"
+import { AppDispatch } from "@/toolkit/Store";
+import { LogoutUser } from "@/toolkit/slices/userSlice";
+
+import { useDispatch } from "react-redux"
 
 function NavigationBar() {
+
+  const dispatch: AppDispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(LogoutUser());
+  }
   return (
 <section className="position-relative">
   <nav className="navbar navbar-expand-xl navbar-light bg-light-light py-4">
@@ -20,6 +29,7 @@ function NavigationBar() {
         <ul className="navbar-nav me-4">
           <li className="nav-item me-4"><a className="nav-link" href="/Dashboard">Dashboard</a></li>
           <li className="nav-item"><a className="nav-link" href="/login">Sign in</a></li>
+          <li className="nav-item"><a className="nav-link" href="/logout" onClick={handleLogout}>Logout</a></li>
         </ul>
         <div>
           <a className="btn btn-outline-dark d-flex align-items-center rounded-pill" href="/register">

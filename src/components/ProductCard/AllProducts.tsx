@@ -64,7 +64,7 @@ const AllProducts = () => {
           <h2>Category</h2>
           <ul>
             <li>
-              <select name="" id="">
+              <select name="category">
                 <option value="Smart-Phone">Smart Phone</option>
                 <option value="PC">PC</option>
                 <option value="Laptop">Laptop</option>
