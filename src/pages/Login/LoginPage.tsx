@@ -21,7 +21,9 @@ export const LoginPage = () => {
       const response = await dispatch(loginUser(data))
       if (response.payload.success == true) {
         toast.success(response.payload.message)
-        navigate("/")
+                
+        const isAdmin = response.payload.data.loggedInUser.isAdmin;
+        navigate(isAdmin ? "/admin/dashboard" : "/profile")
       } else {
         toast.error(response.payload.message)
       }
