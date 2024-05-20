@@ -1,5 +1,4 @@
 // User
-
 export type User = {
   username: string
   email: string
@@ -13,12 +12,20 @@ export type User = {
 export type UserState = {
   // users: User[],
   // totalPages: number,
-  user: User | null,
-  error: null | string
   isLoading: boolean
+  error: null | string
+  userData: User | null
+  token: string | null
+  isLoggedIn: boolean
 }
 
 export type LoginFormData = {
-    email: string
-    password: string
-  }
+  email: string
+  password: string
+}
+
+export type LoginData = {
+  userData: string | null
+  isLoggedIn: boolean
+  token: string
+}
