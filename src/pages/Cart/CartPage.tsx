@@ -46,7 +46,7 @@ export const CartPage = () => {
             <span className="d-inline-block align-middle text-sm text-muted font-weight-medium text-uppercase mr-2">
               Subtotal:
             </span>
-            <span className="d-inline-block align-middle text-xl font-weight-medium">$188.50</span>
+            <span className="d-inline-block align-middle text-xl font-weight-medium">Here The total</span>
           </div>
         </div>
         <hr className="my-2" />

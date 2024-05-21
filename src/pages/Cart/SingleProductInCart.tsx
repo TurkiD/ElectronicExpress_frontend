@@ -1,13 +1,24 @@
+import { AppDispatch } from "@/toolkit/Store"
+import { removeProductFromCart } from "@/toolkit/slices/cartSlice"
 import { Cart } from "@/types/Cart"
-import React from "react"
+import { useDispatch } from "react-redux"
+import { toast } from "react-toastify"
 
 const SingleProductInCart = (props: { product: Cart }) => {
   const { product } = props
+
+  const dispatch: AppDispatch = useDispatch()
+
+  const handleRemoveFromCart = async (productID: string) => {
+    const response = await dispatch(removeProductFromCart(productID));
+    console.log(response);
+  };
+
   return (
     <>
       <div className="cart-item d-md-flex justify-content-between">
         <span className="remove-item">
-          <i className="fa fa-times"></i>
+         <button className="border-0 opacity-25" onClick={() => {handleRemoveFromCart(product.productID)}}>X</button>
         </span>
         <div className="px-3 my-3">
           <a className="cart-item-product" href="#">
@@ -15,7 +26,7 @@ const SingleProductInCart = (props: { product: Cart }) => {
               <img src={product.image} alt={product.productName} />
             </div>
             <div className="cart-item-product-info">
-              <h4 className="cart-item-product-title">Canon EOS M50 Mirrorless Camera</h4>
+              <h4 className="cart-item-product-title">{product.productName}</h4>
               <span>
                 <strong>Type:</strong> Mirrorless
               </span>
