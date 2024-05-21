@@ -30,8 +30,8 @@ export const Index = () => {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
 
-          <Route path="/" element={<ProtectedRoute />}>
             <Route path="/cart" element={<CartPage />} />
+          <Route path="/" element={<ProtectedRoute />}>
             <Route path="/profile" element={<ProfilePage />} />
           </Route>
 

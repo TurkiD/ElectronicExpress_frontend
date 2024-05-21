@@ -1,9 +1,11 @@
 import PageTitle from "@/components/PageTitle"
 import { AppDispatch, RootState } from "@/toolkit/Store"
+import { addProductToCart } from "@/toolkit/slices/cartSlice"
 import { fetchProductById } from "@/toolkit/slices/productSlice"
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
+import { toast } from "react-toastify"
 
 export const ProductDetailsPage = () => {
   const { identifier } = useParams<{ identifier: string }>()
@@ -18,6 +20,13 @@ export const ProductDetailsPage = () => {
     }
     fetchData()
   }, [])
+
+  const handleAddToCart = async () => {
+    const response = await dispatch(addProductToCart(identifier));
+    if (response.payload.success == true) {
+      toast.success("Added to the cart")
+    }
+  };
 
   return (
     <section className="py-20 overflow-hidden">
@@ -126,9 +135,7 @@ export const ProductDetailsPage = () => {
                       SAR{product.price}
                     </span>
                   </p>
-                  <p className="mw-md text-secondary">
-                   {product.description}
-                  </p>
+                  <p className="mw-md text-secondary">{product.description}</p>
                 </div>
                 <div className="d-flex mb-12">
                   <div className="me-6">
@@ -170,22 +177,12 @@ export const ProductDetailsPage = () => {
                       </button>
                     </div>
                   </div>
-                  {/* <div>
-                    <span className="d-block mb-4 fw-bold text-secondary text-uppercase">Size</span>
-                    <select
-                      className="form-select border ps-6 pe-10 py-4 fw-bold text-secondary"
-                      name=""
-                      id=""
-                    >
-                      <option value="1">Medium</option>
-                      <option value="2">Small</option>
-                      <option value="3">Large</option>
-                    </select>
-                  </div> */}
                 </div>
                 <div className="row mb-14">
                   <div className="col-12 col-xl-8 mb-4 mb-xl-0">
-                    <button className="btn w-100 btn-primary mt-2">
+                    <button
+                      className="btn w-100 btn-primary mt-2"
+                      onClick={() => handleAddToCart()}>
                       Add to cart
                     </button>
                     {/* <a className="btn w-100 btn-primary mt-2" href="#">
@@ -263,9 +260,7 @@ export const ProductDetailsPage = () => {
               </div>
             </div>
             <h3 className="mb-8 text-black">{product.productName}</h3>
-            <p className="mw-2xl text-secondary">
-              {product.description}
-            </p>
+            <p className="mw-2xl text-secondary">{product.description}</p>
           </div>
         </div>
       )}

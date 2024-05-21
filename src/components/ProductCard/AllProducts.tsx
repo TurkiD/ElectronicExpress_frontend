@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "@/toolkit/Store"
 import { fetchProducts } from "@/toolkit/slices/productSlice"
 import { Button } from "react-bootstrap"
-import Sidebar from "../Sidebars/Sidebar"
 
 const AllProducts = () => {
   const { products, isLoading, error, totalPages } = useSelector(
@@ -26,8 +25,6 @@ const AllProducts = () => {
     }
     fetchData()
   }, [pageNumber, searchTerm, sortBy])
-
-  console.log(products)
 
   const handlePreviousPage = () => {
     setPageNumber((currentPage) => currentPage - 1)
