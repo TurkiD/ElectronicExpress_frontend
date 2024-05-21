@@ -53,20 +53,25 @@ function NavigationBar() {
                 </a>
               </li>
             </ul>
-            {isLoggedIn && (
-              <ul className="navbar-nav me-4">
+            <ul className="navbar-nav me-4">
+              {isLoggedIn && userData?.isAdmin &&(
                 <li className="nav-item me-4">
                   <a className="nav-link" href="/admin/dashboard">
                     Dashboard
                   </a>
                 </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="/logout" onClick={handleLogout}>
-                    Logout
-                  </a>
-                </li>
-              </ul>
-            )}
+              )}
+              <li className="nav-item">
+                <a className="nav-link" href="/cart">
+                  Cart
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="/logout" onClick={handleLogout}>
+                  Logout
+                </a>
+              </li>
+            </ul>
             {!isLoggedIn && (
               <ul className="navbar-nav me-4">
                 <li className="nav-item">
