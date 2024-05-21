@@ -4,6 +4,7 @@ import AdminProducts from "@/components/Admin/AdminProducts/AdminProducts"
 import AdminUsers from "@/components/Admin/AdminUsers/AdminUsers"
 import Navbar from "@/components/Navigation/NavigationBar"
 import {
+  CartPage,
   DashboardPage,
   HomePage,
   LoginPage,
@@ -15,6 +16,7 @@ import {
 
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import AdminRoute from "./AdminRoute"
+import ProtectedRoute from "./ProtectedRoute"
 
 export const Index = () => {
   return (
@@ -27,7 +29,11 @@ export const Index = () => {
           <Route path="/product/:identifier" element={<ProductDetailsPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
+
+          <Route path="/" element={<ProtectedRoute />}>
+            <Route path="/cart" element={<CartPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+          </Route>
 
           <Route path="/admin" element={<AdminRoute />}>
             <Route path="/admin/dashboard" element={<DashboardPage />} />
