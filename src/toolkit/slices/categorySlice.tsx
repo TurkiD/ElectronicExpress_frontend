@@ -46,13 +46,23 @@ export const createCategory = createAsyncThunk(
   }
 )
 
-// export const updateCategory = createAsyncThunk(
-//   "categories/updateCategory",
-//   async (categoryId: string, updatedCategory:) => {
-//     const response = await api.put(`/categories/${categoryId}`)
-//     return response.data
-//   }
-// )
+export const updateCategory = createAsyncThunk(
+  "categories/updateCategory",
+  async ({
+    categoryId,
+    updateCategoryData
+  }: {
+    categoryId: string
+    updateCategoryData: UpdateCategoryFormData
+  }) => {
+    const response = await api.put(`/categories/${categoryId}`, updateCategoryData, {
+      headers: {
+        Authorization: `Bearer ${getToken()}`
+      }
+    })
+    return response.data
+  }
+)
 
 export const deleteCategory = createAsyncThunk(
   "categories/deleteCategory",
@@ -73,8 +83,8 @@ const categorySlice = createSlice({
 
   extraReducers(builder) {
     builder.addCase(fetchCategory.fulfilled, (state, action) => {
-      state.categories = action.payload.data.items
-      state.totalPages = action.payload.totalPages
+      state.categories = action.payload.data.items      
+      state.totalPages = action.payload.data.totalPages
       state.error = null
       state.isLoading = false
     })
@@ -82,6 +92,13 @@ const categorySlice = createSlice({
       state.categories.push(action.payload)
       state.error = null
       state.isLoading = false
+    })
+    builder.addCase(updateCategory.fulfilled, (state, action) => {
+      const foundCategory = state.categories.find((categroy) => categroy.categoryID === action.payload.data.categoryID)
+      if (foundCategory) {
+        foundCategory.name = action.payload.data.name
+        foundCategory.description = action.payload.data.description
+      }
     })
     builder.addCase(deleteCategory.fulfilled, (state, action) => {
       state.categories = state.categories.filter(

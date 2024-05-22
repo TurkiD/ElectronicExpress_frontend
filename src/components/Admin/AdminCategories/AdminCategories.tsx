@@ -22,8 +22,8 @@ const AdminCategories = () => {
   const [pageSize, setPageSize] = useState(9)
   const [searchTerm, setSearchTerm] = useState("")
   const [sortBy, setSortBy] = useState("Name")
-
   const [popupVisible, setPopupVisible] = useState<boolean>(false)
+
   const {
     register,
     handleSubmit,

@@ -1,29 +1,46 @@
 import { AppDispatch } from "@/toolkit/Store"
-import { deleteCategory} from "@/toolkit/slices/categorySlice"
-import { Category, UpdateCategoryFormData } from "@/types/Category"
+import { deleteCategory, updateCategory } from "@/toolkit/slices/categorySlice"
+import { Category } from "@/types/Category"
 
 import { useState } from "react"
-import { SubmitHandler, useForm } from "react-hook-form"
 import { useDispatch } from "react-redux"
 import { toast } from "react-toastify"
 
 const SingleCategory = (props: { category: Category }) => {
   const { category } = props
+  const { categoryID, name, description } = category
   const dispatch: AppDispatch = useDispatch()
 
+  const [categoryName, setCategoryName] = useState(name)
+  const [categoryDescription, setCategoryDescription] = useState(description)
+  const [selectedCategoryId, setSelectedCategoryId] = useState("")
   const [popupVisible, setPopupVisible] = useState<boolean>(false)
-  const {
-    register,
-    handleSubmit,
-    formState: { errors }
-  } = useForm<UpdateCategoryFormData>()
 
-  const onSubmit: SubmitHandler<UpdateCategoryFormData> = async (data) => {
-    try {
-      // dispatch(updateCategory(category.categoryID, data))
-    } catch (error: any) {
-      toast.error(error.message)
+  const handleEdit = async (id: string, category: Category) => {
+    setPopupVisible(!popupVisible)
+
+    if (popupVisible == false) {
+      setSelectedCategoryId(id)
+      setCategoryName(category.name)
+      setCategoryDescription(category.description)
     }
+  }
+
+  const handleEditSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    const updateCategoryData = {
+      name: categoryName,
+      description: categoryDescription
+    }
+    dispatch(updateCategory({categoryId: selectedCategoryId, updateCategoryData: updateCategoryData}))
+  }
+
+  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCategoryName(event.target.value)
+  }
+
+  const handleDescriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setCategoryDescription(event.target.value)
   }
 
   const handleDelete = async (categoryId: string) => {
@@ -35,35 +52,32 @@ const SingleCategory = (props: { category: Category }) => {
     }
   }
 
-  function togglePopup() {
-    setPopupVisible(!popupVisible)
-    console.log(popupVisible)
-  }
-
   return (
     <>
       <section className="category-card">
         <div className="card-details">
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleEditSubmit}>
             <input
-              className="text-center border-0 fs-3"
+              name="name"
               type="text"
-              defaultValue={category.name}
+              className="text-center border-0 fs-3"
+              // value={categoryName}
+              defaultValue={categoryName}
+              onChange={handleNameChange}
               readOnly={!popupVisible}
-              {...register("name", {
-                required: "Name is Required",
-                minLength: { value: 2, message: "Name must be at least 2 character" }
-              })}
+              required
+              // onChange={handleNameChange}
             />
-            {errors.name && <p>{errors.name.message}</p>}
             <section className="card-description">
               <textarea
+                name="categoryDescription"
                 className="border-0 text-center mt-2 pt-2 resize-none"
-                defaultValue={category.description}
-                {...register("description")}
+                // value={description}
+                defaultValue={categoryDescription}
+                onChange={handleDescriptionChange}
                 readOnly={!popupVisible}
+                required
               ></textarea>
-              {errors.description && <p>{errors.description.message}</p>}
             </section>
             <span className="btn-container">
               {popupVisible && (
@@ -74,7 +88,12 @@ const SingleCategory = (props: { category: Category }) => {
             </span>
           </form>
           <span className="btn-container">
-            <button className="card-btn" onClick={togglePopup}>
+            <button
+              className="card-btn"
+              onClick={() => {
+                handleEdit(categoryID, category)
+              }}
+            >
               {popupVisible ? "Cancel" : "Edit"}
             </button>
             <button
