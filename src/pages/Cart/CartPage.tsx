@@ -1,10 +1,11 @@
-import { useDispatch, useSelector } from "react-redux"
 import "./CartPage.css"
-import { AppDispatch, RootState } from "@/toolkit/Store"
-import { useEffect } from "react"
-import { fetchCart } from "@/toolkit/slices/cartSlice"
 import PageTitle from "@/components/PageTitle"
+import { fetchCart } from "@/toolkit/slices/cartSlice"
 import SingleProductInCart from "./SingleProductInCart"
+import { AppDispatch, RootState } from "@/toolkit/Store"
+
+import { useDispatch, useSelector } from "react-redux"
+import { useEffect } from "react"
 
 export const CartPage = () => {
   const { carts, isLoading, error } = useSelector((state: RootState) => state.cartR)

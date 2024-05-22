@@ -79,7 +79,7 @@ const AllProducts = () => {
           </section>
         </div>
       </div>
-      <div className="btn-container">
+      <div className="btn-container p-3">
         <Button onClick={handlePreviousPage} disabled={pageNumber === 1}>
           Previous
         </Button>

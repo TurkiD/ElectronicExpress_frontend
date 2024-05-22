@@ -1,5 +1,6 @@
 import api from "@/api"
 import { CategoryState } from "@/types/Category"
+import { getToken } from "@/utils/localStorage"
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
 const initialState: CategoryState = {
@@ -29,6 +30,19 @@ export const fetchCategory = createAsyncThunk(
 //   }
 // )
 
+export const deleteCategory = createAsyncThunk(
+  "categories/deleteCategory",
+  async (categoryId: string | undefined) => {
+    const token = getToken()
+    await api.delete(`/categories/${categoryId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    return categoryId
+  }
+)
+
 const categorySlice = createSlice({
   name: "products",
   initialState: initialState,
@@ -46,6 +60,11 @@ const categorySlice = createSlice({
     //   state.error = null
     //   state.isLoading = false
     // })
+    builder.addCase(deleteCategory.fulfilled, (state, action) => {
+      state.categories = state.categories.filter(category => category.categoryID != action.payload)
+      state.error = null
+      state.isLoading = false
+    })
     builder.addMatcher(
       (action) => action.type.endsWith("/pending"),
       (state) => {
