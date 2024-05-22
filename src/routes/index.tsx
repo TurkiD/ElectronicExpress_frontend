@@ -17,6 +17,7 @@ import {
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import AdminRoute from "./AdminRoute"
 import ProtectedRoute from "./ProtectedRoute"
+import Footer from "@/components/Footer/Footer"
 
 export const Index = () => {
   return (
@@ -43,6 +44,7 @@ export const Index = () => {
             <Route path="/admin/dashboard/orders" element={<AdminOrders />} />
           </Route>
         </Routes>
+        <Footer />
       </main>
     </BrowserRouter>
   )

@@ -1,0 +1,25 @@
+.category-card{
+  box-shadow: 2px 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.4s ease-in-out;
+  margin: 25px;
+  border: 2px solid #ededed;
+  padding: 40px;
+  width: 400px;
+  height: 200px;
+  text-align: center;
+}
+
+.card-description {
+  margin-bottom: 1rem;
+}
+
+.card-btn {
+  border: none;
+  border-radius: 10%;
+  width: 60px;
+}
+
+.card-btn:hover{
+  transition: 800ms;
+  background-color: burlywood;
+}

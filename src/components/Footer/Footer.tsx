@@ -1,6 +1,6 @@
 import React from "react"
 const Footer = () => 
-<footer className="page-footer font-small blue pt-4 fixed-bottom">
+<footer className="page-footer font-small blue pt-4 fixed">
     <div className="container-fluid text-center text-md-left">
         <div className="row">
             <div className="col-md-6 mt-md-0 mt-3">
@@ -32,8 +32,8 @@ const Footer = () =>
         </div>
     </div>
 
-    <div className="footer-copyright text-center py-3">© 2020 Copyright:
-        <a href="https://mdbootstrap.com/"> MDBootstrap.com</a>
+    <div className="footer-copyright text-center py-3">© 202 Copyright:
+        <a href=""> MyStore.com</a>
     </div>
 
 </footer>

@@ -3,9 +3,9 @@ import "bootstrap/js/dist/dropdown"
 
 const DashboardBar = () => {
   return (
-    <div className="container-fluid col-md-12">
-      <div className="row ">
-        <div className="bg-dark col-auto col-md-8 min-vh-100 d-flex justify-content-between flex-column">
+    <div className="container-fluid col-md-12 sticky-top">
+      <div className="row">
+        <div className="bg-dark col-auto col-md-12 col-lg-8 min-vh-100 d-flex justify-content-between flex-column">
           <div>
             <a
               href=""
@@ -35,7 +35,7 @@ const DashboardBar = () => {
                   <span className="ms-3 fs-5 d-none d-sm-inline">Users</span>
                 </a>
               </li>
-              <li className="nav-item text-white fs-4 my-1 py-sm-0">
+              <li className="nav-item text-white fs-4 my-1  py-sm-0">
                 <a
                   href="/admin/dashboard/orders"
                   className="nav-link text-decoration-none text-white"
@@ -45,14 +45,14 @@ const DashboardBar = () => {
                   <span className="ms-3 fs-5 d-none d-sm-inline">Orders</span>
                 </a>
               </li>
-              <li className="nav-item text-white fs-4 my-1 py-sm-0">
+              <li className="nav-item text-white fs-4 my-1  py-sm-0">
                 <a
                   href="/admin/dashboard/categories"
                   className="nav-link text-decoration-none text-white"
                   aria-current="page"
                 >
                   <i className="fa-solid fa-grip fa-xs"></i>
-                  <span className="ms-3 fs-5 d-none d-sm-inline">Categories</span>
+                  <span className="ms-3 fs-5 d-none d-sm-inline">Category</span>
                 </a>
               </li>
               <li className="nav-item text-white fs-4 my-1 py-sm-0">

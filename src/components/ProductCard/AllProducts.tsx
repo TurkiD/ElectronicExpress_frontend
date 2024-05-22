@@ -42,7 +42,7 @@ const AllProducts = () => {
   return (
     <>
       {isLoading && <p>Loading...</p>}
-      {error && <p>Error{error}</p>}
+      {error && <p>{error}</p>}
       <div className="search-container">
         <input
           type="text"
