@@ -30,10 +30,9 @@ export const addProductToCart = createAsyncThunk(
 export const removeProductFromCart = createAsyncThunk(
   "cart/removeProductFromCart",
   async (productId: string | undefined) => {
-    const token = getToken()
     await api.delete(`/cart/${productId}`, {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${getToken()}`
       }
     })
     return productId
@@ -41,10 +40,9 @@ export const removeProductFromCart = createAsyncThunk(
 )
 
 export const fetchCart = createAsyncThunk("cart/fetchCart", async () => {
-  const token = getToken()
   const response = await api.get(`/cart`, {
     headers: {
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${getToken()}`
     }
   })
   return response.data

@@ -1,11 +1,15 @@
+import "./Category.css"
 import DashboardBar from "@/components/Navigation/AdminDashboard/DashboardBar"
 import { AppDispatch, RootState } from "@/toolkit/Store"
-import { fetchCategory } from "@/toolkit/slices/categorySlice"
+import { createCategory, fetchCategory } from "@/toolkit/slices/categorySlice"
+import SingleCategory from "./SingleCategory"
+import { CreateCategoryFormData } from "@/types/Category"
+
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import SingleCategory from "./SingleCategory"
 import { Button } from "react-bootstrap"
-import "./Category.css"
+import { SubmitHandler, useForm } from "react-hook-form"
+import { toast } from "react-toastify"
 
 const AdminCategories = () => {
   const { categories, isLoading, error, totalPages } = useSelector(
@@ -19,12 +23,27 @@ const AdminCategories = () => {
   const [searchTerm, setSearchTerm] = useState("")
   const [sortBy, setSortBy] = useState("Name")
 
+  const [popupVisible, setPopupVisible] = useState<boolean>(false)
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<CreateCategoryFormData>()
+
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(fetchCategory({ pageNumber, pageSize, searchTerm, sortBy }))
     }
     fetchData()
   }, [pageNumber, searchTerm, sortBy])
+
+  const onSubmit: SubmitHandler<CreateCategoryFormData> = async (data) => {
+    try {
+      dispatch(createCategory(data))
+    } catch (error: any) {
+      toast.error(error.message)
+    }
+  }
 
   const handlePreviousPage = () => {
     setPageNumber((currentPage) => currentPage - 1)
@@ -37,6 +56,10 @@ const AdminCategories = () => {
   }
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSortBy(e.target.value)
+  }
+
+  function togglePopup() {
+    setPopupVisible(!popupVisible)
   }
 
   return (
@@ -61,6 +84,39 @@ const AdminCategories = () => {
               <option value="date">Date</option>
             </select>
           </div>
+          {popupVisible && (
+            <form className="text-center pt-3" onSubmit={handleSubmit(onSubmit)}>
+              <input
+                className="text-center"
+                type="text"
+                placeholder="Category Name"
+                {...register("name", {
+                  required: "Name is Required",
+                  minLength: { value: 2, message: "Name must be at least 2 character" }
+                })}
+              />
+              {errors.name && <p>{errors.name.message}</p>}
+              <section className="card-description">
+                <textarea
+                  placeholder="Category Description"
+                  className="text-center mt-2 pt-2 resize-none"
+                  {...register("description")}
+                ></textarea>
+                {errors.description && <p>{errors.description.message}</p>}
+              </section>
+              <span className="btn-container">
+                <button type="submit" className="btn btn-primary">
+                  Save
+                </button>
+              </span>
+            </form>
+          )}
+          <span className="btn-container">
+            <button type="submit" className="btn btn-primary mt-3" onClick={togglePopup}>
+              {popupVisible ? "Cancel" : "Create Category"}
+            </button>
+          </span>
+
           <section className="card-container ms-5">
             {categories &&
               categories.length > 0 &&

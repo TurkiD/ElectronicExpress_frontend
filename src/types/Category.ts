@@ -6,11 +6,22 @@ export type Category = {
   products: Product[]
 }
 
+export type CreateCategoryFormData = {
+  name: string
+  description: string
+  products?: Product[]
+}
+
 export type CategoryState = {
   categories: Category[]
   totalPages: number
   error: null | string
   isLoading: boolean
+}
+
+export type UpdateCategoryFormData = {
+  name: string
+  description: string
 }
 
 export type Product = {

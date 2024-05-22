@@ -19,6 +19,13 @@ export type UserState = {
   isLoggedIn: boolean
 }
 
+export type RegisterFormData = {
+  username: string
+  email: string
+  password: string
+  image: string
+}
+
 export type LoginFormData = {
   email: string
   password: string
@@ -28,4 +35,11 @@ export type LoginData = {
   userData: string | null
   isLoggedIn: boolean
   token: string
+}
+
+export type updateUserProfile = {
+  username: string
+  email: string
+  password: string
+  image: string
 }

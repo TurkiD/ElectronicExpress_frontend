@@ -1,3 +1,13 @@
+textarea {
+  width: 200px; 
+  min-width:200px; 
+  max-width:200px; 
+
+  height:55px; 
+  min-height:55px;  
+  max-height:55px;
+}
+
 .category-card{
   box-shadow: 2px 4px 8px 0 rgba(0, 0, 0, 0.2);
   transition: 0.4s ease-in-out;
@@ -5,7 +15,7 @@
   border: 2px solid #ededed;
   padding: 40px;
   width: 400px;
-  height: 200px;
+  height: 230px;
   text-align: center;
 }
 
@@ -21,5 +31,6 @@
 
 .card-btn:hover{
   transition: 800ms;
-  background-color: burlywood;
+  background-color: #0d6efd;
+  color: white;
 }

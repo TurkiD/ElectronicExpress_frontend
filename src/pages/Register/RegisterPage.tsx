@@ -1,17 +1,11 @@
 import { AppDispatch } from "@/toolkit/Store"
 import { registerUser } from "@/toolkit/slices/userSlice"
+import { RegisterFormData } from "@/types/User"
 import { Button } from "react-bootstrap"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
-
-type FormData = {
-  username: string
-  email: string
-  password: string
-  image: string
-}
 
 export const RegisterPage = () => {
   const navigate = useNavigate()
@@ -20,9 +14,9 @@ export const RegisterPage = () => {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<FormData>()
+  } = useForm<RegisterFormData>()
 
-  const onSubmit: SubmitHandler<FormData> = async (data) => {
+  const onSubmit: SubmitHandler<RegisterFormData> = async (data) => {
     try {
       const response = await dispatch(registerUser(data))      
       if (response.payload.success == true) {
