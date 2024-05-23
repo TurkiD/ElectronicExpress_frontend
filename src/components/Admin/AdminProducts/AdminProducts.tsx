@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { AppDispatch, RootState } from "@/toolkit/Store"
 import { useDispatch, useSelector } from "react-redux"
 import { Button } from "react-bootstrap"
-import { fetchProducts } from "@/toolkit/slices/productSlice"
+import { deleteProduct, fetchProducts } from "@/toolkit/slices/productSlice"
 import { Product } from "@/types/Product"
 import { toast } from "react-toastify"
 
@@ -54,12 +54,12 @@ const AdminProducts = () => {
     setSortBy(e.target.value)
   }
   const handleDelete = async (productId: string) => {
-    // const response = await dispatch(deleteCategory(categoryId))
-    // if (response.meta.requestStatus === "fulfilled") {
-    //   toast.success("Product Deleted")
-    // } else {
-    //   toast.error(response.meta.requestStatus)
-    // }
+    const response = await dispatch(deleteProduct(productId))
+    if (response.meta.requestStatus === "fulfilled") {
+      toast.success("Product Deleted")
+    } else {
+      toast.error(response.meta.requestStatus)
+    }
   }
 
   return (
