@@ -1,17 +1,18 @@
-import DashboardBar from "@/components/Navigation/AdminDashboard/DashboardBar"
 import "./Product.css"
+import DashboardBar from "@/components/Navigation/AdminDashboard/DashboardBar"
 import { useEffect, useState } from "react"
 import { AppDispatch } from "@/toolkit/Store"
-import { useDispatch } from "react-redux"
-import { Button } from "react-bootstrap"
-import { createProduct, deleteProduct, fetchProducts } from "@/toolkit/slices/productSlice"
+import { createProduct, deleteProduct, fetchProducts, updateProduct } from "@/toolkit/slices/productSlice"
 import { CreateProductFormData, Product } from "@/types/Product"
-import { toast } from "react-toastify"
-import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import { uploadImageToCloudinary } from "@/utils/cloudinary"
 import useCategoryState from "@/hooks/useCategoryState"
 import useProductState from "@/hooks/useProductState"
 import { fetchCategory } from "@/toolkit/slices/categorySlice"
+
+import { useDispatch } from "react-redux"
+import { Button } from "react-bootstrap"
+import { toast } from "react-toastify"
+import { Controller, SubmitHandler, useForm } from "react-hook-form"
 
 const AdminProducts = () => {
   const [pageNumber, setPageNumber] = useState(1)
@@ -19,17 +20,17 @@ const AdminProducts = () => {
   const [searchTerm, setSearchTerm] = useState("")
   const [sortBy, setSortBy] = useState("Name")
   const [imagePreview, setImagePreview] = useState<string | null>(null)
+  const [selectedProductId, setSelectedProductId] = useState("")
 
   const [productName, setProductName] = useState("")
-  const [productDescription, setProductDescription] = useState("")
+  const [productDescription, setProductDescription] = useState<string>("")
+
 
   const [popupVisible, setPopupVisible] = useState<boolean>(false)
 
   const {
     register,
     handleSubmit,
-    reset,
-    setValue,
     control,
     formState: { errors }
   } = useForm<CreateProductFormData>()
@@ -67,10 +68,8 @@ const AdminProducts = () => {
         image: imageUrl
       }
 
-      console.log(productData)
-
       const response = await dispatch(createProduct(productData))
-      // toast.success(response.payload.message)
+      toast.success(response.payload.message)
     } catch (error) {
       toast.error("Product creation failed")
     }
@@ -81,9 +80,27 @@ const AdminProducts = () => {
     setPopupVisible(!popupVisible)
 
     if (popupVisible == false) {
+      setSelectedProductId(id)
       setProductName(product.productName)
       setProductDescription(product.description)
     }
+  }
+
+  const handleEditSubmit = (event: React.FormEvent) => {
+    event.preventDefault()
+    setPopupVisible(false)
+
+    const updateProductData = {
+      productName: productName,
+      description: productDescription
+    }
+    
+    console.log(updateProductData, selectedProductId);
+    
+    dispatch(updateProduct({ productId: selectedProductId, updateProductData: updateProductData }))
+
+    setProductName("")
+    setProductDescription("")
   }
 
   const handleDelete = async (productId: string) => {
@@ -93,6 +110,14 @@ const AdminProducts = () => {
     } else {
       toast.error(response.meta.requestStatus)
     }
+  }
+
+  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setProductName(event.target.value)
+  }
+
+  const handleDescriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setProductDescription(event.target.value)
   }
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -122,6 +147,9 @@ const AdminProducts = () => {
           <DashboardBar />
         </div>
         <div className="col-10 mx-0 px-0">
+          {isLoading && <p>Loading...</p>}
+          {error && <p>Error{error}</p>}
+          {/* Create product */}
           <h1>Products</h1>
           <br />
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -164,6 +192,29 @@ const AdminProducts = () => {
             <button type="submit">Create</button>
           </form>
           <br />
+          {/* Edit product */}
+          <br />
+          <h1>Edit Product</h1>
+          <form onSubmit={handleEditSubmit}>
+            <label htmlFor="productName">Product Name</label>
+            <input name="productName" type="text" value={productName} onChange={handleNameChange} />
+
+            <label htmlFor="description">Product description</label>
+            <textarea
+              name="description"
+              value={productDescription}
+              onChange={handleDescriptionChange}
+            ></textarea>
+
+            {imagePreview && <img src={imagePreview} alt="Image preview" />}
+            {popupVisible && (
+              <button type="submit" className="card-btn">
+                Save
+              </button>
+            )}
+          </form>
+          <br />
+          {/* Render product */}
           <table>
             <thead>
               <tr>
@@ -209,16 +260,11 @@ const AdminProducts = () => {
                       <button
                         className="card-btn"
                         onClick={() => {
-                          handleEdit(product.categoryID, product)
+                          handleEdit(product.productID, product)
                         }}
                       >
                         {popupVisible ? "Cancel" : "Edit"}
                       </button>
-                      {popupVisible && (
-                        <button type="submit" className="card-btn">
-                          Save
-                        </button>
-                      )}
                       <button
                         className="card-btn"
                         onClick={() => {

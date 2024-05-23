@@ -1,5 +1,5 @@
 import api from "@/api"
-import { CreateProductForBackend, CreateProductFormData, Product, ProductState } from "@/types/Product"
+import { CreateProductForBackend, CreateProductFormData, Product, ProductState, UpdateProductFormData } from "@/types/Product"
 import { getToken } from "@/utils/localStorage"
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
@@ -34,6 +34,24 @@ export const createProduct = createAsyncThunk(
   "products/createProduct",
   async (newProduct: CreateProductForBackend) => {
     const response = await api.post("/products", newProduct, {
+      headers: {
+        Authorization: `Bearer ${getToken()}`
+      }
+    })
+    return response.data
+  }
+)
+
+export const updateProduct = createAsyncThunk(
+  "products/updateProduct",
+  async ({
+    productId,
+    updateProductData
+  }: {
+    productId: string
+    updateProductData: UpdateProductFormData
+  }) => {
+    const response = await api.put(`/products/${productId}`, updateProductData, {
       headers: {
         Authorization: `Bearer ${getToken()}`
       }
@@ -77,6 +95,15 @@ const productSlice = createSlice({
       state.productData.push(action.payload)
       state.error = null
       state.isLoading = false
+    })
+    builder.addCase(updateProduct.fulfilled, (state, action) => {
+      const foundProduct = state.productData.find((product) => product.productID === action.payload.data.productID)
+      if (foundProduct) {
+        foundProduct.productName = action.payload.data.productName
+        foundProduct.description = action.payload.data.description
+        state.error = null
+        state.isLoading = false
+      }
     })
     builder.addCase(deleteProduct.fulfilled, (state, action) => {
       state.productData = state.productData.filter(

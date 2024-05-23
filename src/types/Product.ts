@@ -25,14 +25,13 @@ export type ProductState = {
 }
 
 export type UpdateProductFormData  = {
-  productID: string;
   productName: string;
   description: string;
-  image: string;
-  quantity: number;
-  price: number;
+  // image?: string;
+  // quantity?: number;
+  // price?: number;
+  // categoryID?: string;
   // createdAt: string;
-  // categoryID: string;
 }
 
 export type CreateProductForBackend  = {
