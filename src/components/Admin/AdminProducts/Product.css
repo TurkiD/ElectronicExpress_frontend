@@ -1,0 +1,30 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    text-align: left;
+}
+th, td {
+    padding: 12px 15px;
+}
+th {
+    /* background-color: violet; */
+    background-color: darkslategrey;
+    color: white;
+    text-align: left;
+}
+tr {
+    border-bottom: 1px solid #ddd;
+}
+tr:nth-last-of-type(even) {
+    background-color: #f3f3f3;
+}
+tr:last-of-type {
+    /* background-color: violet; */
+}
+
+
+.table-img {
+    height: 100px;
+    width: 100px;
+}

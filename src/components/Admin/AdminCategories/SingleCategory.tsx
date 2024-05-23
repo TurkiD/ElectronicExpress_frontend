@@ -27,12 +27,14 @@ const SingleCategory = (props: { category: Category }) => {
   }
 
   const handleEditSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
+    event.preventDefault()
     const updateCategoryData = {
       name: categoryName,
       description: categoryDescription
     }
-    dispatch(updateCategory({categoryId: selectedCategoryId, updateCategoryData: updateCategoryData}))
+    dispatch(
+      updateCategory({ categoryId: selectedCategoryId, updateCategoryData: updateCategoryData })
+    )
   }
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {

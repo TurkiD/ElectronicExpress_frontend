@@ -68,7 +68,7 @@ const AdminCategories = () => {
         <div className="col-2 mx-0 px-0">
           <DashboardBar />
         </div>
-        <div className=" col-10 mx-0 px-0">
+        <div className=" col-10">
           <h1 className="text-center pb-1">Categories</h1>
           {isLoading && <p>Loading...</p>}
           {error && <p>Error{error}</p>}
@@ -87,7 +87,6 @@ const AdminCategories = () => {
           {popupVisible && (
             <form className="text-center pt-3" onSubmit={handleSubmit(onSubmit)}>
               <input
-                className="text-center"
                 type="text"
                 placeholder="Category Name"
                 {...register("name", {
@@ -99,16 +98,14 @@ const AdminCategories = () => {
               <section className="card-description">
                 <textarea
                   placeholder="Category Description"
-                  className="text-center mt-2 pt-2 resize-none"
+                  className="mt-2 pt-2 resize-none"
                   {...register("description")}
                 ></textarea>
                 {errors.description && <p>{errors.description.message}</p>}
               </section>
-              <span className="btn-container">
                 <button type="submit" className="btn btn-primary">
                   Save
                 </button>
-              </span>
             </form>
           )}
           <span className="btn-container">
@@ -116,7 +113,7 @@ const AdminCategories = () => {
               {popupVisible ? "Cancel" : "Create Category"}
             </button>
           </span>
-
+          {/* render all category */}
           <section className="card-container ms-5">
             {categories &&
               categories.length > 0 &&
