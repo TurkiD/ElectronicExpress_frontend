@@ -4,7 +4,7 @@ import { getToken } from "@/utils/localStorage"
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
 const initialState: CategoryState = {
-  categories: [],
+  categoryData: [],
   totalPages: 1,
   error: null,
   isLoading: false
@@ -83,25 +83,27 @@ const categorySlice = createSlice({
 
   extraReducers(builder) {
     builder.addCase(fetchCategory.fulfilled, (state, action) => {
-      state.categories = action.payload.data.items      
+      state.categoryData = action.payload.data.items      
       state.totalPages = action.payload.data.totalPages
       state.error = null
       state.isLoading = false
     })
     builder.addCase(createCategory.fulfilled, (state, action) => {
-      state.categories.push(action.payload)
+      state.categoryData.push(action.payload)
       state.error = null
       state.isLoading = false
     })
     builder.addCase(updateCategory.fulfilled, (state, action) => {
-      const foundCategory = state.categories.find((categroy) => categroy.categoryID === action.payload.data.categoryID)
+      const foundCategory = state.categoryData.find((categroy) => categroy.categoryID === action.payload.data.categoryID)
       if (foundCategory) {
         foundCategory.name = action.payload.data.name
         foundCategory.description = action.payload.data.description
+        state.error = null
+        state.isLoading = false
       }
     })
     builder.addCase(deleteCategory.fulfilled, (state, action) => {
-      state.categories = state.categories.filter(
+      state.categoryData = state.categoryData.filter(
         (category) => category.categoryID != action.payload
       )
       state.error = null

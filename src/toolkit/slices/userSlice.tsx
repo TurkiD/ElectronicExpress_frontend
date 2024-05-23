@@ -58,6 +58,8 @@ const userSlice = createSlice({
           token: state.token
         })
       )
+      state.error = null
+      state.isLoading = false
     })
 
     builder.addMatcher(

@@ -1,10 +1,10 @@
 import api from "@/api"
-import { ProductState } from "@/types/Product"
+import { CreateProductForBackend, CreateProductFormData, Product, ProductState } from "@/types/Product"
 import { getToken } from "@/utils/localStorage"
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
 const initialState: ProductState = {
-  products: [],
+  productData: [],
   totalPages: 1,
   product: null,
   error: null,
@@ -17,7 +17,7 @@ export const fetchProducts = createAsyncThunk(
     const response = 
     searchTerm.length > 0
     ? await api.get(`/products?pageNumber=${pageNumber}&pageSize=${pageSize}&searchTerm=${searchTerm}&sortBy=${sortBy}`)
-    : await api.get(`/products?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}`)
+    : await api.get(`/products?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}`)    
     return response.data
   }
 )
@@ -26,6 +26,18 @@ export const fetchProductById = createAsyncThunk(
   "products/fetchProductById",
   async (identifier: string | undefined) => {
     const response = await api.get(`/products/${identifier}`)
+    return response.data
+  }
+)
+
+export const createProduct = createAsyncThunk(
+  "products/createProduct",
+  async (newProduct: CreateProductForBackend) => {
+    const response = await api.post("/products", newProduct, {
+      headers: {
+        Authorization: `Bearer ${getToken()}`
+      }
+    })
     return response.data
   }
 )
@@ -49,7 +61,9 @@ const productSlice = createSlice({
 
   extraReducers(builder) {
     builder.addCase(fetchProducts.fulfilled, (state, action) => {
-      state.products = action.payload.items
+      // console.log(action.payload.items[0]);
+      
+      state.productData = action.payload.items
       state.totalPages = action.payload.totalPages
       state.error = null
       state.isLoading = false
@@ -59,8 +73,13 @@ const productSlice = createSlice({
       state.error = null
       state.isLoading = false
     })
+    builder.addCase(createProduct.fulfilled, (state, action) => {
+      state.productData.push(action.payload)
+      state.error = null
+      state.isLoading = false
+    })
     builder.addCase(deleteProduct.fulfilled, (state, action) => {
-      state.products = state.products.filter(
+      state.productData = state.productData.filter(
         (product) => product.productID != action.payload
       )
       state.error = null

@@ -13,7 +13,7 @@ export type CreateCategoryFormData = {
 }
 
 export type CategoryState = {
-  categories: Category[]
+  categoryData: Category[]
   totalPages: number
   error: null | string
   isLoading: boolean

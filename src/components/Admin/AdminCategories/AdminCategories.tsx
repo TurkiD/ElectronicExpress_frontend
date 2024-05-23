@@ -1,20 +1,19 @@
 import "./Category.css"
 import DashboardBar from "@/components/Navigation/AdminDashboard/DashboardBar"
-import { AppDispatch, RootState } from "@/toolkit/Store"
+import { AppDispatch } from "@/toolkit/Store"
 import { createCategory, fetchCategory } from "@/toolkit/slices/categorySlice"
 import SingleCategory from "./SingleCategory"
 import { CreateCategoryFormData } from "@/types/Category"
 
 import { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { Button } from "react-bootstrap"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { toast } from "react-toastify"
+import useCategoryState from "@/hooks/useCategoryState"
 
 const AdminCategories = () => {
-  const { categories, isLoading, error, totalPages } = useSelector(
-    (state: RootState) => state.categoryR
-  )
+  const { categoryData, isLoading, error, totalPages } = useCategoryState();
 
   const dispatch: AppDispatch = useDispatch()
 
@@ -115,9 +114,9 @@ const AdminCategories = () => {
           </span>
           {/* render all category */}
           <section className="card-container ms-5">
-            {categories &&
-              categories.length > 0 &&
-              categories.map((category) => (
+            {categoryData &&
+              categoryData.length > 0 &&
+              categoryData.map((category) => (
                 <SingleCategory key={category.categoryID} category={category} />
               ))}
           </section>

@@ -6,11 +6,10 @@ import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "@/toolkit/Store"
 import { fetchProducts } from "@/toolkit/slices/productSlice"
 import { Button } from "react-bootstrap"
+import useProductState from "@/hooks/useProductState"
 
 const AllProducts = () => {
-  const { products, isLoading, error, totalPages } = useSelector(
-    (state: RootState) => state.productR
-  )
+  const { productData, isLoading, error, totalPages } = useProductState();
 
   const dispatch: AppDispatch = useDispatch()
 
@@ -71,9 +70,9 @@ const AllProducts = () => {
         </div>
         <div className="right-side-products">
           <section className="card-container">
-            {products &&
-              products.length > 0 &&
-              products.map((product) => (
+            {productData &&
+              productData.length > 0 &&
+              productData.map((product) => (
                 <SingleProduct key={product.productID} product={product} />
               ))}
           </section>

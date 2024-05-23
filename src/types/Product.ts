@@ -1,3 +1,9 @@
+import { Category } from "./Category";
+
+export type CustomeError = {
+  message: string
+}
+
 export type Product = {
   productID: string;
   productName: string;
@@ -5,12 +11,13 @@ export type Product = {
   image: string;
   quantity: number;
   price: number;
-  // createdAt: string;
+  createdAt: string;
   categoryID: string;
+  category: Category
 }
 
 export type ProductState = {
-  products: Product[],
+  productData: Product[],
   totalPages: number,
   product: Product | null,
   error: null | string
@@ -26,4 +33,22 @@ export type UpdateProductFormData  = {
   price: number;
   // createdAt: string;
   // categoryID: string;
+}
+
+export type CreateProductForBackend  = {
+  productName: string;
+  description: string;
+  quantity: number;
+  price: number;
+  image: string;
+  categoryID?: string;
+}
+
+export type CreateProductFormData  = {
+  productName: string;
+  description: string;
+  quantity: number;
+  price: number;
+  image: FileList;
+  categoryID?: string;
 }

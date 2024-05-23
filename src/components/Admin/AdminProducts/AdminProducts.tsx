@@ -1,45 +1,106 @@
 import DashboardBar from "@/components/Navigation/AdminDashboard/DashboardBar"
 import "./Product.css"
 import { useEffect, useState } from "react"
-import { AppDispatch, RootState } from "@/toolkit/Store"
-import { useDispatch, useSelector } from "react-redux"
+import { AppDispatch } from "@/toolkit/Store"
+import { useDispatch } from "react-redux"
 import { Button } from "react-bootstrap"
-import { deleteProduct, fetchProducts } from "@/toolkit/slices/productSlice"
-import { Product } from "@/types/Product"
+import { createProduct, deleteProduct, fetchProducts } from "@/toolkit/slices/productSlice"
+import { CreateProductFormData, Product } from "@/types/Product"
 import { toast } from "react-toastify"
+import { Controller, SubmitHandler, useForm } from "react-hook-form"
+import { uploadImageToCloudinary } from "@/utils/cloudinary"
+import useCategoryState from "@/hooks/useCategoryState"
+import useProductState from "@/hooks/useProductState"
+import { fetchCategory } from "@/toolkit/slices/categorySlice"
 
 const AdminProducts = () => {
   const [pageNumber, setPageNumber] = useState(1)
   const [pageSize, setPageSize] = useState(8)
   const [searchTerm, setSearchTerm] = useState("")
   const [sortBy, setSortBy] = useState("Name")
-  const [categoryName, setCategoryName] = useState("")
-  const [categoryDescription, setCategoryDescription] = useState("")
-  const [selectedCategoryId, setSelectedCategoryId] = useState("")
+  const [imagePreview, setImagePreview] = useState<string | null>(null)
+
+  const [productName, setProductName] = useState("")
+  const [productDescription, setProductDescription] = useState("")
+
   const [popupVisible, setPopupVisible] = useState<boolean>(false)
 
-  const { products, isLoading, error, totalPages } = useSelector(
-    (state: RootState) => state.productR
-  )
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    control,
+    formState: { errors }
+  } = useForm<CreateProductFormData>()
 
-  const handleEdit = async (id: string, product: Product) => {
-    setPopupVisible(!popupVisible)
-
-    if (popupVisible == false) {
-      setSelectedCategoryId(id)
-      setCategoryName(product.productName)
-      setCategoryDescription(product.description)
-    }
-  }
+  const { categoryData } = useCategoryState()
+  const { productData, isLoading, totalPages, error } = useProductState()
 
   const dispatch: AppDispatch = useDispatch()
-
+  // get product
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(fetchProducts({ pageNumber, pageSize, searchTerm, sortBy }))
     }
     fetchData()
   }, [pageNumber, searchTerm, sortBy])
+
+  // get category
+  useEffect(() => {
+    const fetchData = async () => {
+      await dispatch(fetchCategory({ pageNumber, pageSize, searchTerm, sortBy }))
+    }
+    fetchData()
+  }, [])
+
+  const onSubmit: SubmitHandler<CreateProductFormData> = async (data) => {
+    try {
+      let imageUrl = ""
+      if (data.image && data.image.length > 0) {
+        const file = data.image[0]
+        // upload image to the cloudinary
+        imageUrl = await uploadImageToCloudinary(file)
+      }
+      const productData = {
+        ...data,
+        image: imageUrl
+      }
+
+      console.log(productData)
+
+      const response = await dispatch(createProduct(productData))
+      // toast.success(response.payload.message)
+    } catch (error) {
+      toast.error("Product creation failed")
+    }
+  }
+
+  // handle product edit
+  const handleEdit = async (id: string, product: Product) => {
+    setPopupVisible(!popupVisible)
+
+    if (popupVisible == false) {
+      setProductName(product.productName)
+      setProductDescription(product.description)
+    }
+  }
+
+  const handleDelete = async (productId: string) => {
+    const response = await dispatch(deleteProduct(productId))
+    if (response.meta.requestStatus === "fulfilled") {
+      toast.success("Product Deleted")
+    } else {
+      toast.error(response.meta.requestStatus)
+    }
+  }
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (file) {
+      setImagePreview(URL.createObjectURL(file))
+    }
+  }
 
   const handlePreviousPage = () => {
     setPageNumber((currentPage) => currentPage - 1)
@@ -53,14 +114,6 @@ const AdminProducts = () => {
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSortBy(e.target.value)
   }
-  const handleDelete = async (productId: string) => {
-    const response = await dispatch(deleteProduct(productId))
-    if (response.meta.requestStatus === "fulfilled") {
-      toast.success("Product Deleted")
-    } else {
-      toast.error(response.meta.requestStatus)
-    }
-  }
 
   return (
     <div className="container-fluid">
@@ -70,6 +123,47 @@ const AdminProducts = () => {
         </div>
         <div className="col-10 mx-0 px-0">
           <h1>Products</h1>
+          <br />
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <label htmlFor="productName">Product Name</label>
+            <input type="text" {...register("productName")} required />
+            {errors.productName && <p>{errors.productName.message}</p>}
+            <textarea {...register("description")} required></textarea>
+            {errors.description && <p>{errors.description.message}</p>}
+            <label htmlFor="quantity">Quantity</label>
+            <input type="number" min="1" {...register("quantity")} />
+            {errors.quantity && <p>{errors.quantity.message}</p>}
+            <input type="number" step="0.01" min="0" {...register("price")} />
+            {errors.price && <p>{errors.price.message}</p>}
+            <label htmlFor="categoryId">Select Category</label>
+            <Controller
+              name="categoryID"
+              control={control}
+              render={({ field }) => (
+                <select {...field}>
+                  {categoryData &&
+                    categoryData.length > 0 &&
+                    categoryData.map((category) => (
+                      <option key={category.categoryID} value={category.categoryID}>
+                        {category.name}
+                      </option>
+                    ))}
+                </select>
+              )}
+            />
+            {errors.categoryID && <p>{errors.categoryID.message}</p>}
+            <input
+              type="file"
+              accept="image/*"
+              {...register("image")}
+              onChange={handleImageChange}
+              required
+            />
+            {errors.image && <p>{errors.image.message}</p>}
+            {imagePreview && <img src={imagePreview} alt="Image preview" />}
+            <button type="submit">Create</button>
+          </form>
+          <br />
           <table>
             <thead>
               <tr>
@@ -99,15 +193,15 @@ const AdminProducts = () => {
               </tr>
             </thead>
             <tbody>
-              {products &&
-                products.length > 0 &&
-                products.map((product) => (
-                  <tr key={product.productID}>
+              {productData &&
+                productData.length > 0 &&
+                productData.map((product) => (
+                  <tr key={`${product.productID}-${product.categoryID}`}>
                     <td>
                       <img src={product.image} alt={product.productName} className="table-img" />
                     </td>
                     <td>{product.productName}</td>
-                    <td>Category</td>
+                    <td>{product.category.name}</td>
                     <td>{product.description}</td>
                     <td>{product.price}</td>
                     <td>{product.quantity}</td>
@@ -156,5 +250,4 @@ const AdminProducts = () => {
     </div>
   )
 }
-
 export default AdminProducts
