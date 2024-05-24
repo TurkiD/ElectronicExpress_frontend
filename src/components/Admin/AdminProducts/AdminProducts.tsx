@@ -2,7 +2,12 @@ import "./Product.css"
 import DashboardBar from "@/components/Navigation/AdminDashboard/DashboardBar"
 import { useEffect, useState } from "react"
 import { AppDispatch } from "@/toolkit/Store"
-import { createProduct, deleteProduct, fetchProducts, updateProduct } from "@/toolkit/slices/productSlice"
+import {
+  createProduct,
+  deleteProduct,
+  fetchProducts,
+  updateProduct
+} from "@/toolkit/slices/productSlice"
 import { CreateProductFormData, Product } from "@/types/Product"
 import { uploadImageToCloudinary } from "@/utils/cloudinary"
 import useCategoryState from "@/hooks/useCategoryState"
@@ -13,6 +18,7 @@ import { useDispatch } from "react-redux"
 import { Button } from "react-bootstrap"
 import { toast } from "react-toastify"
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
+import SingleProduct from "./SingleProduct"
 
 const AdminProducts = () => {
   const [pageNumber, setPageNumber] = useState(1)
@@ -24,7 +30,6 @@ const AdminProducts = () => {
 
   const [productName, setProductName] = useState("")
   const [productDescription, setProductDescription] = useState<string>("")
-
 
   const [popupVisible, setPopupVisible] = useState<boolean>(false)
 
@@ -94,9 +99,9 @@ const AdminProducts = () => {
       productName: productName,
       description: productDescription
     }
-    
-    console.log(updateProductData, selectedProductId);
-    
+
+    console.log(updateProductData, selectedProductId)
+
     dispatch(updateProduct({ productId: selectedProductId, updateProductData: updateProductData }))
 
     setProductName("")
@@ -192,28 +197,6 @@ const AdminProducts = () => {
             <button type="submit">Create</button>
           </form>
           <br />
-          {/* Edit product */}
-          <br />
-          <h1>Edit Product</h1>
-          <form onSubmit={handleEditSubmit}>
-            <label htmlFor="productName">Product Name</label>
-            <input name="productName" type="text" value={productName} onChange={handleNameChange} />
-
-            <label htmlFor="description">Product description</label>
-            <textarea
-              name="description"
-              value={productDescription}
-              onChange={handleDescriptionChange}
-            ></textarea>
-
-            {imagePreview && <img src={imagePreview} alt="Image preview" />}
-            {popupVisible && (
-              <button type="submit" className="card-btn">
-                Save
-              </button>
-            )}
-          </form>
-          <br />
           {/* Render product */}
           <table>
             <thead>
@@ -243,40 +226,11 @@ const AdminProducts = () => {
                 <th>Action</th>
               </tr>
             </thead>
-            <tbody>
-              {productData &&
-                productData.length > 0 &&
-                productData.map((product) => (
-                  <tr key={`${product.productID}-${product.categoryID}`}>
-                    <td>
-                      <img src={product.image} alt={product.productName} className="table-img" />
-                    </td>
-                    <td>{product.productName}</td>
-                    <td>{product.category.name}</td>
-                    <td>{product.description}</td>
-                    <td>{product.price}</td>
-                    <td>{product.quantity}</td>
-                    <td>
-                      <button
-                        className="card-btn"
-                        onClick={() => {
-                          handleEdit(product.productID, product)
-                        }}
-                      >
-                        {popupVisible ? "Cancel" : "Edit"}
-                      </button>
-                      <button
-                        className="card-btn"
-                        onClick={() => {
-                          handleDelete(product.productID)
-                        }}
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
+            {productData &&
+              productData.length > 0 &&
+              productData.map((product) => (
+                <SingleProduct key={product.productID} product={product} />
+              ))}
           </table>
         </div>
         <div className="btn-container p-3">

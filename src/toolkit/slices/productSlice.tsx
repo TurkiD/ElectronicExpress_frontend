@@ -96,15 +96,15 @@ const productSlice = createSlice({
       state.error = null
       state.isLoading = false
     })
-    builder.addCase(updateProduct.fulfilled, (state, action) => {
-      const foundProduct = state.productData.find((product) => product.productID === action.payload.data.productID)
-      if (foundProduct) {
-        foundProduct.productName = action.payload.data.productName
-        foundProduct.description = action.payload.data.description
-        state.error = null
-        state.isLoading = false
-      }
-    })
+    // builder.addCase(updateProduct.fulfilled, (state, action) => {      
+    //   const foundProduct = state.productData.find((product) => product.productID === action.payload.data.productID)      
+    //   if (foundProduct) {
+    //     foundProduct.productName = action.payload.data.productName
+    //     foundProduct.description = action.payload.data.description
+    //     state.error = null
+    //     state.isLoading = false
+    //   }
+    // })
     builder.addCase(deleteProduct.fulfilled, (state, action) => {
       state.productData = state.productData.filter(
         (product) => product.productID != action.payload

@@ -15,8 +15,7 @@ export const addProductToCart = createAsyncThunk(
   async (identifier: string | undefined) => {
     const token = getToken()
     const response = await api.post(
-      `/cart/${identifier}`,
-      {},
+      `/cart/${identifier}`, {},
       {
         headers: {
           Authorization: `Bearer ${token}`
@@ -64,7 +63,7 @@ const cartSlice = createSlice({
       state.isLoading = false
     })
     builder.addCase(removeProductFromCart.fulfilled, (state, action) => {
-      state.carts = state.carts.filter(cart => cart.productID != action.payload)
+      state.carts = state.carts.filter((cart) => cart.productID != action.payload)
       state.error = null
       state.isLoading = false
     })
