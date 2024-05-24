@@ -122,19 +122,44 @@ const AdminCategories = () => {
           </section>
         </div>
       </div>
-      <div className="btn-container pb-3">
-        <Button onClick={handlePreviousPage} disabled={pageNumber === 1}>
-          Previous
-        </Button>
-        {Array.from({ length: totalPages }, (_, index) => (
-          <Button key={index} onClick={() => setPageNumber(index + 1)}>
-            {index + 1}
-          </Button>
-        ))}
-        <Button onClick={handleNextPage} disabled={pageNumber === totalPages}>
-          Next
-        </Button>
-      </div>
+      <nav aria-label="Page navigation example">
+        <ul className="pagination justify-content-center">
+          <li className="page-item">
+            <button
+              className={`page-link btn ${
+                pageNumber === 1 ? "btn-outline-secondary disabled" : "btn-dark text-secondary"
+              }`}
+              onClick={handlePreviousPage}
+              disabled={pageNumber === 1}
+            >
+              Previous
+            </button>
+          </li>
+          {Array.from({ length: totalPages }, (_, index) => (
+            <li className="page-item" key={index}>
+              <button
+                className={` btn ${
+                  index + 1 === pageNumber ? "btn-dark" : "d-inline-flex focus-ring focus-ring-info py-1 px-2 text-decoration-none border rounded-2"
+                }`}
+                onClick={() => setPageNumber(index + 1)}
+              >
+                {index + 1}
+              </button>
+            </li>
+          ))}
+          <li className="page-item">
+            <button
+              className={`page-link btn ${
+                pageNumber === totalPages ? "btn-outline-secondary disabled" : "btn-dark text-secondary"
+              }`}
+              onClick={handleNextPage}
+              disabled={pageNumber === totalPages}
+            >
+              Next
+            </button>
+          </li>
+        </ul>
+      </nav>
     </div>
   )
 }
