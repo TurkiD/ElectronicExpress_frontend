@@ -94,7 +94,7 @@ const categorySlice = createSlice({
       state.isLoading = false
     })
     builder.addCase(updateCategory.fulfilled, (state, action) => {
-      const foundCategory = state.categoryData.find((categroy) => categroy.categoryID === action.payload.data.categoryID)
+      const foundCategory = state.categoryData.find((category) => category.categoryID === action.payload.data.categoryID)
       if (foundCategory) {
         foundCategory.name = action.payload.data.name
         foundCategory.description = action.payload.data.description

@@ -1,5 +1,11 @@
 import api from "@/api"
-import { CreateProductForBackend, CreateProductFormData, Product, ProductState, UpdateProductFormData } from "@/types/Product"
+import {
+  CreateProductForBackend,
+  CreateProductFormData,
+  Product,
+  ProductState,
+  UpdateProductFormData
+} from "@/types/Product"
 import { getToken } from "@/utils/localStorage"
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
@@ -13,11 +19,23 @@ const initialState: ProductState = {
 
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
-  async ({ pageNumber, pageSize, searchTerm, sortBy }: { pageNumber: number; pageSize: number; searchTerm: string; sortBy: string }) => {
-    const response = 
-    searchTerm.length > 0
-    ? await api.get(`/products?pageNumber=${pageNumber}&pageSize=${pageSize}&searchTerm=${searchTerm}&sortBy=${sortBy}`)
-    : await api.get(`/products?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}`)    
+  async ({
+    pageNumber,
+    pageSize,
+    searchTerm,
+    sortBy
+  }: {
+    pageNumber: number
+    pageSize: number
+    searchTerm: string
+    sortBy: string
+  }) => {
+    const response =
+      searchTerm.length > 0
+        ? await api.get(
+            `/products?pageNumber=${pageNumber}&pageSize=${pageSize}&searchTerm=${searchTerm}&sortBy=${sortBy}`
+          )
+        : await api.get(`/products?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}`)
     return response.data
   }
 )
@@ -32,7 +50,7 @@ export const fetchProductById = createAsyncThunk(
 
 export const createProduct = createAsyncThunk(
   "products/createProduct",
-  async (newProduct: CreateProductForBackend) => {
+  async (newProduct: CreateProductForBackend) => {    
     const response = await api.post("/products", newProduct, {
       headers: {
         Authorization: `Bearer ${getToken()}`
@@ -79,8 +97,6 @@ const productSlice = createSlice({
 
   extraReducers(builder) {
     builder.addCase(fetchProducts.fulfilled, (state, action) => {
-      // console.log(action.payload.items[0]);
-      
       state.productData = action.payload.items
       state.totalPages = action.payload.totalPages
       state.error = null
@@ -91,24 +107,24 @@ const productSlice = createSlice({
       state.error = null
       state.isLoading = false
     })
-    builder.addCase(createProduct.fulfilled, (state, action) => {
-      state.productData.push(action.payload)
+    builder.addCase(createProduct.fulfilled, (state, action) => {      
+      state.productData.push(action.payload.data)
       state.error = null
       state.isLoading = false
     })
-    // builder.addCase(updateProduct.fulfilled, (state, action) => {      
-    //   const foundProduct = state.productData.find((product) => product.productID === action.payload.data.productID)      
-    //   if (foundProduct) {
-    //     foundProduct.productName = action.payload.data.productName
-    //     foundProduct.description = action.payload.data.description
-    //     state.error = null
-    //     state.isLoading = false
-    //   }
-    // })
-    builder.addCase(deleteProduct.fulfilled, (state, action) => {
-      state.productData = state.productData.filter(
-        (product) => product.productID != action.payload
+    builder.addCase(updateProduct.fulfilled, (state, action) => {
+      const foundProduct = state.productData.find(
+        (product) => product.productID === action.payload.data.productID
       )
+      if (foundProduct) {
+        foundProduct.productName = action.payload.data.productName
+        foundProduct.description = action.payload.data.description
+        state.error = null
+        state.isLoading = false
+      }
+    })
+    builder.addCase(deleteProduct.fulfilled, (state, action) => {
+      state.productData = state.productData.filter((product) => product.productID != action.payload)
       state.error = null
       state.isLoading = false
     })

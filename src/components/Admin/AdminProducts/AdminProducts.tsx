@@ -2,45 +2,22 @@ import "./Product.css"
 import DashboardBar from "@/components/Navigation/AdminDashboard/DashboardBar"
 import { useEffect, useState } from "react"
 import { AppDispatch } from "@/toolkit/Store"
-import {
-  createProduct,
-  deleteProduct,
-  fetchProducts,
-  updateProduct
-} from "@/toolkit/slices/productSlice"
-import { CreateProductFormData, Product } from "@/types/Product"
-import { uploadImageToCloudinary } from "@/utils/cloudinary"
-import useCategoryState from "@/hooks/useCategoryState"
+import { fetchProducts } from "@/toolkit/slices/productSlice"
 import useProductState from "@/hooks/useProductState"
-import { fetchCategory } from "@/toolkit/slices/categorySlice"
 
 import { useDispatch } from "react-redux"
 import { Button } from "react-bootstrap"
-import { toast } from "react-toastify"
-import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import SingleProduct from "./SingleProduct"
+import CreateProduct from "@/components/Modal/CreateProduct"
 
 const AdminProducts = () => {
   const [pageNumber, setPageNumber] = useState(1)
   const [pageSize, setPageSize] = useState(8)
   const [searchTerm, setSearchTerm] = useState("")
   const [sortBy, setSortBy] = useState("Name")
-  const [imagePreview, setImagePreview] = useState<string | null>(null)
-  const [selectedProductId, setSelectedProductId] = useState("")
 
-  const [productName, setProductName] = useState("")
-  const [productDescription, setProductDescription] = useState<string>("")
+  const [modalShow, setModalShow] = useState(false)
 
-  const [popupVisible, setPopupVisible] = useState<boolean>(false)
-
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors }
-  } = useForm<CreateProductFormData>()
-
-  const { categoryData } = useCategoryState()
   const { productData, isLoading, totalPages, error } = useProductState()
 
   const dispatch: AppDispatch = useDispatch()
@@ -51,86 +28,6 @@ const AdminProducts = () => {
     }
     fetchData()
   }, [pageNumber, searchTerm, sortBy])
-
-  // get category
-  useEffect(() => {
-    const fetchData = async () => {
-      await dispatch(fetchCategory({ pageNumber, pageSize, searchTerm, sortBy }))
-    }
-    fetchData()
-  }, [])
-
-  const onSubmit: SubmitHandler<CreateProductFormData> = async (data) => {
-    try {
-      let imageUrl = ""
-      if (data.image && data.image.length > 0) {
-        const file = data.image[0]
-        // upload image to the cloudinary
-        imageUrl = await uploadImageToCloudinary(file)
-      }
-      const productData = {
-        ...data,
-        image: imageUrl
-      }
-
-      const response = await dispatch(createProduct(productData))
-      toast.success(response.payload.message)
-    } catch (error) {
-      toast.error("Product creation failed")
-    }
-  }
-
-  // handle product edit
-  const handleEdit = async (id: string, product: Product) => {
-    setPopupVisible(!popupVisible)
-
-    if (popupVisible == false) {
-      setSelectedProductId(id)
-      setProductName(product.productName)
-      setProductDescription(product.description)
-    }
-  }
-
-  const handleEditSubmit = (event: React.FormEvent) => {
-    event.preventDefault()
-    setPopupVisible(false)
-
-    const updateProductData = {
-      productName: productName,
-      description: productDescription
-    }
-
-    console.log(updateProductData, selectedProductId)
-
-    dispatch(updateProduct({ productId: selectedProductId, updateProductData: updateProductData }))
-
-    setProductName("")
-    setProductDescription("")
-  }
-
-  const handleDelete = async (productId: string) => {
-    const response = await dispatch(deleteProduct(productId))
-    if (response.meta.requestStatus === "fulfilled") {
-      toast.success("Product Deleted")
-    } else {
-      toast.error(response.meta.requestStatus)
-    }
-  }
-
-  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setProductName(event.target.value)
-  }
-
-  const handleDescriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setProductDescription(event.target.value)
-  }
-
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    if (file) {
-      setImagePreview(URL.createObjectURL(file))
-    }
-  }
 
   const handlePreviousPage = () => {
     setPageNumber((currentPage) => currentPage - 1)
@@ -155,47 +52,7 @@ const AdminProducts = () => {
           {isLoading && <p>Loading...</p>}
           {error && <p>Error{error}</p>}
           {/* Create product */}
-          <h1>Products</h1>
-          <br />
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <label htmlFor="productName">Product Name</label>
-            <input type="text" {...register("productName")} required />
-            {errors.productName && <p>{errors.productName.message}</p>}
-            <textarea {...register("description")} required></textarea>
-            {errors.description && <p>{errors.description.message}</p>}
-            <label htmlFor="quantity">Quantity</label>
-            <input type="number" min="1" {...register("quantity")} />
-            {errors.quantity && <p>{errors.quantity.message}</p>}
-            <input type="number" step="0.01" min="0" {...register("price")} />
-            {errors.price && <p>{errors.price.message}</p>}
-            <label htmlFor="categoryId">Select Category</label>
-            <Controller
-              name="categoryID"
-              control={control}
-              render={({ field }) => (
-                <select {...field}>
-                  {categoryData &&
-                    categoryData.length > 0 &&
-                    categoryData.map((category) => (
-                      <option key={category.categoryID} value={category.categoryID}>
-                        {category.name}
-                      </option>
-                    ))}
-                </select>
-              )}
-            />
-            {errors.categoryID && <p>{errors.categoryID.message}</p>}
-            <input
-              type="file"
-              accept="image/*"
-              {...register("image")}
-              onChange={handleImageChange}
-              required
-            />
-            {errors.image && <p>{errors.image.message}</p>}
-            {imagePreview && <img src={imagePreview} alt="Image preview" />}
-            <button type="submit">Create</button>
-          </form>
+          <CreateProduct show={modalShow} onHide={() => setModalShow(false)} />
           <br />
           {/* Render product */}
           <table>
@@ -215,6 +72,16 @@ const AdminProducts = () => {
                     <option value="date">Date</option>
                   </select>
                 </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                  <Button variant="primary" onClick={() => setModalShow(true)}>
+                    Create Product
+                  </Button>
+                </td>
               </tr>
               <tr>
                 <th>Image</th>
@@ -226,11 +93,16 @@ const AdminProducts = () => {
                 <th>Action</th>
               </tr>
             </thead>
-            {productData &&
-              productData.length > 0 &&
-              productData.map((product) => (
-                <SingleProduct key={product.productID} product={product} />
-              ))}
+            <tbody>
+              {productData &&
+                productData.length > 0 &&
+                productData.map((product) => (
+                  <SingleProduct
+                    key={`${product.productID}-${product.categoryID}`}
+                    product={product}
+                  />
+                ))}
+            </tbody>
           </table>
         </div>
         <div className="btn-container p-3">
