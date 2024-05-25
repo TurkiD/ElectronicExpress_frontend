@@ -40,8 +40,8 @@ const EditCategory: React.FC<PopupProps> = (props) => {
         toast.error(response.payload.message);
       }
     } catch (error) {
-      console.error('Error updating product:', error);
-      toast.error('An error occurred while updating the product.');
+      console.error('Error updating category:', error);
+      toast.error('An error occurred while updating the category.');
     }
   }
 

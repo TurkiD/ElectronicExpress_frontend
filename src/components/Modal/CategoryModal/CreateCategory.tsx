@@ -26,9 +26,17 @@ const CreateCategory: React.FC<PopupProps> = (props) => {
 
   const onSubmit: SubmitHandler<CreateCategoryFormData> = async (data) => {
     try {
-      dispatch(createCategory(data))
-    } catch (error: any) {
-      toast.error(error.message)
+      const response = await dispatch(createCategory(data))
+
+      if (response.meta.requestStatus === "fulfilled") {
+        toast.success(response.payload.message)
+        onHide()
+      } else {
+        toast.error(response.payload?.message || "Category creation failed")
+      }
+    } catch (error) {
+      console.error("Error creating product:", error)
+      toast.error("An unexpected error occurred. Please try again later.")
     }
   }
 
@@ -52,11 +60,8 @@ const CreateCategory: React.FC<PopupProps> = (props) => {
             {errors.name && <p>{errors.name.message}</p>}
           </div>
           <div className="form-group mt-3">
-          <label htmlFor="description">Category Description</label>
-            <textarea
-              className="form-control mw-100"
-              {...register("description")}
-            ></textarea>
+            <label htmlFor="description">Category Description</label>
+            <textarea className="form-control mw-100" {...register("description")}></textarea>
             {errors.description && <p>{errors.description.message}</p>}
           </div>
           <button type="submit" className="btn btn-primary mt-3">
