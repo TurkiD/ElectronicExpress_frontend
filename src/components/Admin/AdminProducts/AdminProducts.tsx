@@ -1,4 +1,4 @@
-import "./Product.css"
+import "../layout/table.css"
 import DashboardBar from "@/components/Navigation/AdminDashboard/DashboardBar"
 import { useEffect, useState } from "react"
 import { AppDispatch } from "@/toolkit/Store"
@@ -8,7 +8,7 @@ import useProductState from "@/hooks/useProductState"
 import { useDispatch } from "react-redux"
 import { Button } from "react-bootstrap"
 import SingleProduct from "./SingleProduct"
-import CreateProduct from "@/components/Modal/CreateProduct"
+import CreateProduct from "@/components/Modal/ProductModal/CreateProduct"
 
 const AdminProducts = () => {
   const [pageNumber, setPageNumber] = useState(1)

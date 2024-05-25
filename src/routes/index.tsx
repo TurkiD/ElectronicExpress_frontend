@@ -18,7 +18,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom"
 import AdminRoute from "./AdminRoute"
 import ProtectedRoute from "./ProtectedRoute"
 import Footer from "@/components/Footer/Footer"
-import Modal from "@/components/Modal/EditProduct"
+import Modal from "@/components/Modal/ProductModal/EditProduct"
 
 export const Index = () => {
   return (

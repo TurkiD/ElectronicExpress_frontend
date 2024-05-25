@@ -1,4 +1,4 @@
-import EditProduct from "@/components/Modal/EditProduct"
+import EditProduct from "@/components/Modal/ProductModal/EditProduct"
 import { AppDispatch } from "@/toolkit/Store"
 import { deleteProduct } from "@/toolkit/slices/productSlice"
 import { Product } from "@/types/Product"
@@ -33,7 +33,7 @@ const SingleProduct = (props: { product: Product }) => {
           <img src={product.image} alt={product.productName} className="table-img" />
         </td>
         <td>{product.productName}</td>
-        <td>{product.category?.name || 'N/A'}</td>
+        <td>{product.category?.name || "N/A"}</td>
         <td>{product.description}</td>
         <td>{product.price}</td>
         <td>{product.quantity}</td>
