@@ -46,7 +46,7 @@
     text-decoration: none;
   }
   .product-card .product-title > a:hover {
-    color: #ac32e4;
+    color: #0d6efd;
   }
   .product-card .product-price {
     display: block;
@@ -95,7 +95,7 @@
     text-decoration: none;
   }
   .product-card .product-button > a:hover {
-    background-color: #ac32e4;
+    background-color: #0d6efd;
     color: #fff;
   }
   .product-card:hover {
@@ -151,7 +151,7 @@
     font-size: 18px;
   }
   .product-category-card:hover .product-category-card-title {
-    color: #ac32e4;
+    color: #0d6efd;
   }
   .product-gallery {
     position: relative;
@@ -204,7 +204,7 @@
     opacity: 1;
   }
   .product-gallery .product-thumbnails > li.active > a {
-    border-color: #ac32e4;
+    border-color: #0d6efd;
     cursor: default;
     opacity: 1;
   }
@@ -278,7 +278,7 @@
     font-weight: bold;
   }
   .cart-item .cart-item-product:hover .cart-item-product-title {
-    color: #ac32e4;
+    color: #0d6efd;
   }
   .cart-item .count-input {
     display: inline-block;
@@ -357,7 +357,7 @@
     text-decoration: none;
   }
   .comparison-table .comparison-item .comparison-item-title:hover {
-    color: #ac32e4;
+    color: #0d6efd;
   }
   .remove-item {
     display: block;
