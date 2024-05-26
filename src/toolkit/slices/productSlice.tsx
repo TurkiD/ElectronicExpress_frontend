@@ -18,24 +18,32 @@ const initialState: ProductState = {
 }
 
 export const fetchProducts = createAsyncThunk(
-  "products/fetchProducts",
+  "/products/fetchProducts",
   async ({
     pageNumber,
     pageSize,
     searchTerm,
-    sortBy
+    sortBy,
+    selectedCategories
   }: {
     pageNumber: number
     pageSize: number
     searchTerm: string
     sortBy: string
+    selectedCategories: string[]
   }) => {
-    const response =
-      searchTerm.length > 0
-        ? await api.get(
-            `/products?pageNumber=${pageNumber}&pageSize=${pageSize}&searchTerm=${searchTerm}&sortBy=${sortBy}`
-          )
-        : await api.get(`/products?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}`)
+    const params = new URLSearchParams({
+      pageNumber: pageNumber.toString(),
+      pageSize: pageSize.toString(),
+      searchTerm,
+      sortBy,
+    })
+
+    selectedCategories.forEach((categoryId) => {      
+      params.append("selectedCategories", categoryId)
+    })
+    
+    const response = await api.get("/products", {params})
     return response.data
   }
 )

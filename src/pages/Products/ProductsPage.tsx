@@ -6,6 +6,7 @@ export const ProductsPage = () => {
   return (
     <>
       <PageTitle title="Products" />
+      
       <AllProducts />
     </>
   )

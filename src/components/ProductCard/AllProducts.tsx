@@ -2,28 +2,41 @@ import SingleProduct from "./ProductCard"
 import "./Products.css"
 
 import React, { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { AppDispatch, RootState } from "@/toolkit/Store"
+import { useDispatch } from "react-redux"
+import { AppDispatch } from "@/toolkit/Store"
 import { fetchProducts } from "@/toolkit/slices/productSlice"
-import { Button } from "react-bootstrap"
 import useProductState from "@/hooks/useProductState"
+import useCategoryState from "@/hooks/useCategoryState"
+import { fetchCategory } from "@/toolkit/slices/categorySlice"
 
 const AllProducts = () => {
   const { productData, isLoading, error, totalPages } = useProductState()
+  const { categoryData } = useCategoryState()
 
   const dispatch: AppDispatch = useDispatch()
 
   const [pageNumber, setPageNumber] = useState(1)
   const [pageSize, setPageSize] = useState(8)
   const [searchTerm, setSearchTerm] = useState("")
+
   const [sortBy, setSortBy] = useState("Name")
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
 
   useEffect(() => {
     const fetchData = async () => {
-      await dispatch(fetchProducts({ pageNumber, pageSize, searchTerm, sortBy }))
+      await dispatch(
+        fetchProducts({ pageNumber, pageSize, searchTerm, sortBy, selectedCategories })
+      )
     }
     fetchData()
-  }, [pageNumber, searchTerm, sortBy])
+  }, [pageNumber, searchTerm, sortBy, selectedCategories])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await dispatch(fetchCategory({ pageNumber, pageSize: 20, searchTerm, sortBy }))
+    }
+    fetchData()
+  }, [])
 
   const handlePreviousPage = () => {
     setPageNumber((currentPage) => currentPage - 1)
@@ -37,11 +50,19 @@ const AllProducts = () => {
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSortBy(e.target.value)
   }
+  const handleCategoryChange = (categoryId: string) => {
+    setSelectedCategories((preSelected) =>
+      preSelected.includes(categoryId)
+        ? preSelected.filter((id) => id !== categoryId)
+        : [...preSelected, categoryId]
+    )
+  }
 
   return (
     <>
       {isLoading && <p>Loading...</p>}
       {error && <p>{error}</p>}
+      {/* Searching and Sorting here */}
       <div className="search-container">
         <input
           type="text"
@@ -50,23 +71,37 @@ const AllProducts = () => {
           onChange={handleSearchChange}
         />
         <select onChange={handleSortChange}>
+          <option>Sort By</option>
           <option value="name">Name</option>
           <option value="price">Price</option>
           <option value="date">Date</option>
         </select>
       </div>
+      {/* Rendering and Filtering here */}
       <div className="products-page-container">
         <div className="product-sidebar-container">
           <h2>Category</h2>
           <ul>
             <li>
-              <select name="category">
-                <option value="Smart-Phone">Smart Phone</option>
-                <option value="PC">PC</option>
-                <option value="Laptop">Laptop</option>
-              </select>
+              {categoryData &&
+                categoryData.length > 0 &&
+                categoryData.map((category) => (
+                  <div className="form-check" key={category.categoryID}>
+                    <label className="form-check-label" htmlFor="category">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        value={category.categoryID}
+                        checked={selectedCategories.includes(category.categoryID)}
+                        onChange={() => handleCategoryChange(category.categoryID)}
+                      />
+                      {category.name}
+                    </label>
+                  </div>
+                ))}
             </li>
           </ul>
+          <h2>Price</h2>
         </div>
         <div className="right-side-products">
           <section className="card-container">
@@ -95,7 +130,9 @@ const AllProducts = () => {
             <li className="page-item" key={index}>
               <button
                 className={` btn ${
-                  index + 1 === pageNumber ? "btn-dark" : "d-inline-flex focus-ring focus-ring-info py-1 px-2 text-decoration-none border rounded-2"
+                  index + 1 === pageNumber
+                    ? "btn-dark"
+                    : "d-inline-flex focus-ring focus-ring-info py-1 px-2 text-decoration-none border rounded-2"
                 }`}
                 onClick={() => setPageNumber(index + 1)}
               >
@@ -106,7 +143,9 @@ const AllProducts = () => {
           <li className="page-item">
             <button
               className={`page-link btn ${
-                pageNumber === totalPages ? "btn-outline-secondary disabled" : "btn-dark text-secondary"
+                pageNumber === totalPages
+                  ? "btn-outline-secondary disabled"
+                  : "btn-dark text-secondary"
               }`}
               onClick={handleNextPage}
               disabled={pageNumber === totalPages}
