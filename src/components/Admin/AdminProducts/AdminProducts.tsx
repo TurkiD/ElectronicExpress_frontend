@@ -12,7 +12,7 @@ import CreateProduct from "@/components/Modal/ProductModal/CreateProduct"
 
 const AdminProducts = () => {
   const [pageNumber, setPageNumber] = useState(1)
-  const [pageSize, setPageSize] = useState(8)
+  const [pageSize] = useState(8)
   const [searchTerm, setSearchTerm] = useState("")
   const [sortBy, setSortBy] = useState("Name")
 

@@ -1,9 +1,8 @@
 import useCategoryState from "@/hooks/useCategoryState"
 import { AppDispatch } from "@/toolkit/Store"
 import { fetchCategory } from "@/toolkit/slices/categorySlice"
-import { createProduct, updateProduct } from "@/toolkit/slices/productSlice"
-import { Product } from "@/types/Category"
-import { CreateProductFormData } from "@/types/Product"
+import { createProduct } from "@/toolkit/slices/productSlice"
+import { CreateProductForm } from "@/types/Product"
 import { uploadImageToCloudinary } from "@/utils/cloudinary"
 
 import { useEffect, useState } from "react"
@@ -16,7 +15,6 @@ import { toast } from "react-toastify"
 interface PopupProps {
   onHide: () => void
   show: boolean
-  //   product: Product
 }
 
 const CreateProduct: React.FC<PopupProps> = (props) => {
@@ -29,12 +27,12 @@ const CreateProduct: React.FC<PopupProps> = (props) => {
     handleSubmit,
     control,
     formState: { errors }
-  } = useForm<CreateProductFormData>()
+  } = useForm<CreateProductForm>()
 
-  const [pageNumber, setPageNumber] = useState(1)
-  const [pageSize, setPageSize] = useState(8)
-  const [searchTerm, setSearchTerm] = useState("")
-  const [sortBy, setSortBy] = useState("Name")
+  const [pageNumber] = useState(1)
+  const [pageSize] = useState(8)
+  const [searchTerm] = useState("")
+  const [sortBy] = useState("Name")
   const [imagePreview, setImagePreview] = useState<string | null>(null)
 
   // get category
@@ -45,7 +43,7 @@ const CreateProduct: React.FC<PopupProps> = (props) => {
     fetchData()
   }, [])
 
-  const onSubmit: SubmitHandler<CreateProductFormData> = async (data) => {
+  const onSubmit: SubmitHandler<CreateProductForm> = async (data) => {
     try {
       let imageUrl = ""
       if (data.image && data.image.length > 0) {

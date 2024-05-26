@@ -20,17 +20,20 @@ export const fetchCategory = createAsyncThunk(
   }: {
     pageNumber: number
     pageSize: number
-    searchTerm: string
-    sortBy: string
+    searchTerm?: string
+    sortBy?: string
   }) => {
-    const response =
-      searchTerm.length > 0
-        ? await api.get(
-            `categories?pageNumber=${pageNumber}&pageSize=${pageSize}&searchTerm=${searchTerm}&sortBy=${sortBy}`
-          )
-        : await api.get(`categories?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}`)
-
-    return response.data
+    if (searchTerm !== undefined) {
+      const response =
+        searchTerm.length > 0
+          ? await api.get(
+              `categories?pageNumber=${pageNumber}&pageSize=${pageSize}&searchTerm=${searchTerm}&sortBy=${sortBy}`
+            )
+          : await api.get(
+              `categories?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}`
+            )
+      return response.data
+    }
   }
 )
 
@@ -83,7 +86,7 @@ const categorySlice = createSlice({
 
   extraReducers(builder) {
     builder.addCase(fetchCategory.fulfilled, (state, action) => {
-      state.categoryData = action.payload.data.items      
+      state.categoryData = action.payload.data.items
       state.totalPages = action.payload.data.totalPages
       state.error = null
       state.isLoading = false
@@ -94,7 +97,9 @@ const categorySlice = createSlice({
       state.isLoading = false
     })
     builder.addCase(updateCategory.fulfilled, (state, action) => {
-      const foundCategory = state.categoryData.find((category) => category.categoryID === action.payload.data.categoryID)
+      const foundCategory = state.categoryData.find(
+        (category) => category.categoryID === action.payload.data.categoryID
+      )
       if (foundCategory) {
         foundCategory.name = action.payload.data.name
         foundCategory.description = action.payload.data.description

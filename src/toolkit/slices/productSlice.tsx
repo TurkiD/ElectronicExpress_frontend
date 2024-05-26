@@ -1,11 +1,5 @@
 import api from "@/api"
-import {
-  CreateProductForBackend,
-  CreateProductFormData,
-  Product,
-  ProductState,
-  UpdateProductFormData
-} from "@/types/Product"
+import { CreateProduct, ProductState, UpdateProductForm } from "@/types/Product"
 import { getToken } from "@/utils/localStorage"
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
@@ -32,7 +26,7 @@ export const fetchProducts = createAsyncThunk(
     pageSize: number
     searchTerm: string
     sortBy: string
-    selectedCategories: string[]
+    selectedCategories?: string[]
     minPrice?: number
     maxPrice?: number
   }) => {
@@ -40,13 +34,14 @@ export const fetchProducts = createAsyncThunk(
       pageNumber: pageNumber.toString(),
       pageSize: pageSize.toString(),
       searchTerm,
-      sortBy,
+      sortBy
     })
 
-    selectedCategories.forEach((categoryId) => {      
-      params.append("selectedCategories", categoryId)
-    })
-    
+    if (selectedCategories !== undefined) {
+      selectedCategories.forEach((categoryId) => {
+        params.append("selectedCategories", categoryId)
+      })
+    }
     if (minPrice !== undefined) {
       params.append("MinPrice", minPrice.toString())
     }
@@ -54,7 +49,7 @@ export const fetchProducts = createAsyncThunk(
       params.append("MaxPrice", maxPrice.toString())
     }
 
-    const response = await api.get("/products", {params})
+    const response = await api.get("/products", { params })
     return response.data
   }
 )
@@ -69,7 +64,7 @@ export const fetchProductById = createAsyncThunk(
 
 export const createProduct = createAsyncThunk(
   "products/createProduct",
-  async (newProduct: CreateProductForBackend) => {    
+  async (newProduct: CreateProduct) => {
     const response = await api.post("/products", newProduct, {
       headers: {
         Authorization: `Bearer ${getToken()}`
@@ -86,7 +81,7 @@ export const updateProduct = createAsyncThunk(
     updateProductData
   }: {
     productId: string
-    updateProductData: UpdateProductFormData
+    updateProductData: UpdateProductForm
   }) => {
     const response = await api.put(`/products/${productId}`, updateProductData, {
       headers: {
@@ -126,7 +121,7 @@ const productSlice = createSlice({
       state.error = null
       state.isLoading = false
     })
-    builder.addCase(createProduct.fulfilled, (state, action) => {      
+    builder.addCase(createProduct.fulfilled, (state, action) => {
       state.productData.push(action.payload.data)
       state.error = null
       state.isLoading = false

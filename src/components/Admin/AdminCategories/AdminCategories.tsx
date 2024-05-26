@@ -16,7 +16,7 @@ const AdminCategories = () => {
   const dispatch: AppDispatch = useDispatch()
 
   const [pageNumber, setPageNumber] = useState(1)
-  const [pageSize, setPageSize] = useState(9)
+  const [pageSize] = useState(9)
   const [searchTerm, setSearchTerm] = useState("")
   const [sortBy, setSortBy] = useState("Name")
   const [modalShow, setModalShow] = useState(false)
