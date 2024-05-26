@@ -13,7 +13,3 @@ export type CartState = {
   error: null | string
   isLoading: boolean
 }
-
-export type addToCart = {
-  productID: string
-}

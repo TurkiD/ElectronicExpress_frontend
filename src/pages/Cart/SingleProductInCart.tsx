@@ -2,6 +2,7 @@ import { AppDispatch } from "@/toolkit/Store"
 import { removeProductFromCart } from "@/toolkit/slices/cartSlice"
 import { Cart } from "@/types/Cart"
 import { useDispatch } from "react-redux"
+import { Link } from "react-router-dom"
 import { toast } from "react-toastify"
 
 const SingleProductInCart = (props: { product: Cart }) => {
@@ -21,20 +22,20 @@ const SingleProductInCart = (props: { product: Cart }) => {
          <button className="border-0 opacity-25" onClick={() => {handleRemoveFromCart(product.productID)}}>X</button>
         </span>
         <div className="px-3 my-3">
-          <a className="cart-item-product" href="#">
+          <Link className="cart-item-product" to={`/product/${product.productID}`}>
             <div className="cart-item-product-thumb">
               <img src={product.image} alt={product.productName} />
             </div>
             <div className="cart-item-product-info">
               <h4 className="cart-item-product-title">{product.productName}</h4>
               <span>
-                <strong>Type:</strong> Mirrorless
+                <strong>Type:</strong>
               </span>
               <span>
                 <strong>Color:</strong> Black
               </span>
             </div>
-          </a>
+            </ Link>
         </div>
         <div className="px-3 my-3 text-center">
           <div className="cart-item-label">Quantity</div>
