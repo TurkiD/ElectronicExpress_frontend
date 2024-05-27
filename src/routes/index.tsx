@@ -3,7 +3,7 @@ import AdminOrders from "@/components/Admin/AdminOrders/AdminOrders"
 import AdminProducts from "@/components/Admin/AdminProducts/AdminProducts"
 import AdminUsers from "@/components/Admin/AdminUsers/AdminUsers"
 import Footer from "@/components/Footer/Footer"
-import Navigationbar from "@/components/Navigation/NavigationBar"
+import Navigationbar from "@/components/Navigation/Navigationbar"
 
 import {
   CartPage,
