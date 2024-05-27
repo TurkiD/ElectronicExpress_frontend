@@ -37,7 +37,6 @@ export const fetchUsers = createAsyncThunk(
       searchTerm,
       sortBy
     })
-
     const response = await api.get("/users", {
       params,
       headers: {
@@ -57,17 +56,17 @@ export const loginUser = createAsyncThunk("users/login", async (userData: LoginF
   const response = await api.post(`/login`, userData)
   return response.data
 })
-// export const deleteProduct = createAsyncThunk(
-//   "products/deleteProduct",
-//   async (productId: string) => {
-//     await api.delete(`/products/${productId}`, {
-//       headers: {
-//         Authorization: `Bearer ${getToken()}`
-//       }
-//     })
-//     return productId
-//   }
-// )
+export const deleteUser = createAsyncThunk(
+  "user/deleteUser",
+  async (userId: string) => {
+    await api.delete(`user/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${getToken()}`
+      }
+    })
+    return userId
+  }
+)
 
 const userSlice = createSlice({
   name: "users",
@@ -109,7 +108,11 @@ const userSlice = createSlice({
       state.error = null
       state.isLoading = false
     })
-
+    builder.addCase(deleteUser.fulfilled, (state, action) => {
+      state.users = state.users.filter((user) => user.userID != action.payload)
+      state.error = null
+      state.isLoading = false
+    })
     builder.addMatcher(
       (action) => action.type.endsWith("/pending"),
       (state) => {

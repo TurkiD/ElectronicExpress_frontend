@@ -1,6 +1,5 @@
-import EditProduct from "@/components/Modal/ProductModal/EditProduct"
 import { AppDispatch } from "@/toolkit/Store"
-import { deleteProduct } from "@/toolkit/slices/productSlice"
+import { deleteUser } from "@/toolkit/slices/userSlice"
 import { User } from "@/types/User"
 import { useState } from "react"
 import { useDispatch } from "react-redux"
@@ -12,20 +11,18 @@ const SingleUser = (props: { user: User }) => {
 
   const [modalShow, setModalShow] = useState(false)
 
-  const handleDelete = async (userId: string) => {
-    console.log(userId);
-    
-    // try {
-    //   const response = await dispatch(deleteUser(userId))
-    //   if (response.meta.requestStatus === "fulfilled") {
-    //     toast.success("Product Deleted")
-    //   } else {
-    //     toast.error("An error occurred while deleting the product.")
-    //   }
-    // } catch (error) {
-    //   console.error("Error deleting product:", error)
-    //   toast.error("An error occurred while deleting the product.")
-    // }
+  const handleDelete = async (userId: string) => {    
+    try {
+      const response = await dispatch(deleteUser(userId))
+      if (response.meta.requestStatus === "fulfilled") {
+        toast.success("User Deleted")
+      } else {
+        toast.error("An error occurred while deleting the user.")
+      }
+    } catch (error) {
+      console.error("Error deleting user:", error)
+      toast.error("An error occurred while deleting the user.")
+    }
   }
 
   return (
@@ -43,7 +40,7 @@ const SingleUser = (props: { user: User }) => {
           <button className="card-btn" onClick={() => setModalShow(true)}>
             Edit
           </button>
-          {/* <EditProduct show={modalShow} onHide={() => setModalShow(false)} product={product} /> */}
+          {/* <EditProduct show={modalShow} onHide={() => setModalShow(false)} user={user} /> */}
           <button
             className="card-btn"
             onClick={() => {
