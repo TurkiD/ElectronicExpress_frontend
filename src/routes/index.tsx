@@ -27,7 +27,7 @@ export const Index = () => {
         <Navigationbar />
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="products" element={<ProductsPage />} />
+          <Route path="/products" element={<ProductsPage />} />
           <Route path="/product/:identifier" element={<ProductDetailsPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
