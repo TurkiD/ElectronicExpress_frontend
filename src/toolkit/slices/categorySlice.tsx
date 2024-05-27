@@ -16,24 +16,22 @@ export const fetchCategory = createAsyncThunk(
     pageNumber,
     pageSize,
     searchTerm,
-    sortBy
+    sortBy,
   }: {
     pageNumber: number
     pageSize: number
-    searchTerm?: string
-    sortBy?: string
+    searchTerm: string
+    sortBy: string
   }) => {
-    if (searchTerm !== undefined) {
-      const response =
-        searchTerm.length > 0
-          ? await api.get(
-              `categories?pageNumber=${pageNumber}&pageSize=${pageSize}&searchTerm=${searchTerm}&sortBy=${sortBy}`
-            )
-          : await api.get(
-              `categories?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}`
-            )
-      return response.data
-    }
+    const params = new URLSearchParams({
+      pageNumber: pageNumber.toString(),
+      pageSize: pageSize.toString(),
+      searchTerm,
+      sortBy
+    })
+
+    const response = await api.get("/categories", { params })
+     return response.data
   }
 )
 
@@ -85,7 +83,7 @@ const categorySlice = createSlice({
   reducers: {},
 
   extraReducers(builder) {
-    builder.addCase(fetchCategory.fulfilled, (state, action) => {
+    builder.addCase(fetchCategory.fulfilled, (state, action) => {      
       state.categoryData = action.payload.data.items
       state.totalPages = action.payload.data.totalPages
       state.error = null

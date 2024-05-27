@@ -35,7 +35,7 @@ const AllProducts = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      await dispatch(fetchCategory({ pageNumber, pageSize: 20 }))
+      await dispatch(fetchCategory({ pageNumber, pageSize: 20, searchTerm, sortBy }))
     }
     fetchData()
   }, [])

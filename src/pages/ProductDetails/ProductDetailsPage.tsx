@@ -22,17 +22,25 @@ export const ProductDetailsPage = () => {
   }, [])
 
   const handleAddToCart = async () => {
-    const response = await dispatch(addProductToCart(identifier));
-    if (response.payload.success == true) {
-      toast.success("Added to the cart")
+    try {
+      const response = await dispatch(addProductToCart(identifier))
+
+      if (response.meta.requestStatus === "fulfilled") {
+        toast.success(response.payload.message)
+      } else {
+        toast.error(response.payload?.message || "Category creation failed")
+      }
+    } catch (error) {
+      console.error("Error creating product:", error)
+      toast.error("An unexpected error occurred. Please try again later.")
     }
-  };
+  }
 
   return (
     <section className="py-20 overflow-hidden">
       <PageTitle title="Product Details" />
       {isLoading && <p>Loading...</p>}
-      {error && <p>Error{error}</p>}
+      {error && <p>{error}</p>}
       {product && (
         <div className="container">
           <div className="row mb-24">
@@ -127,13 +135,13 @@ export const ProductDetailsPage = () => {
                     </button>
                   </div>
                   <p className="d-inline-block mb-8 h5 text-dark">
-                    <span>SAR29.99</span>
-                    <span
+                    <span>SAR{product.price}</span>
+                    {/* <span
                       className="fw-normal text-secondary text-decoration-line-through p-2"
                       style={{ fontSize: "16px" }}
                     >
                       SAR{product.price}
-                    </span>
+                    </span> */}
                   </p>
                   <p className="mw-md text-secondary">{product.description}</p>
                 </div>
@@ -182,7 +190,8 @@ export const ProductDetailsPage = () => {
                   <div className="col-12 col-xl-8 mb-4 mb-xl-0">
                     <button
                       className="btn w-100 btn-primary mt-2"
-                      onClick={() => handleAddToCart()}>
+                      onClick={() => handleAddToCart()}
+                    >
                       Add to cart
                     </button>
                     {/* <a className="btn w-100 btn-primary mt-2" href="#">
