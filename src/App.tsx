@@ -1,4 +1,3 @@
-// import "./App.css"
 import Index from "./routes"
 
 import { ToastContainer } from 'react-toastify';

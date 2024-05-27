@@ -6,6 +6,7 @@ import { AppDispatch, RootState } from "@/toolkit/Store"
 
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
+import Navigationbar from "@/components/Navigation/Navigationbar"
 
 export const CartPage = () => {
   const { carts, isLoading, error } = useSelector((state: RootState) => state.cartR)
@@ -21,7 +22,8 @@ export const CartPage = () => {
 
   return (
     <>
-      <div className="container pb-5 mb-2">
+      <Navigationbar />
+      <div className="container pb-5 mb-2 pt-5">
         <PageTitle title="Cart" />
         {isLoading && <p>Loading...</p>}
         {error && <p>{error}</p>}
@@ -47,7 +49,9 @@ export const CartPage = () => {
             <span className="d-inline-block align-middle text-sm text-muted font-weight-medium text-uppercase mr-2">
               Subtotal:
             </span>
-            <span className="d-inline-block align-middle text-xl font-weight-medium">Here The total</span>
+            <span className="d-inline-block align-middle text-xl font-weight-medium">
+              Here The total
+            </span>
           </div>
         </div>
         <hr className="my-2" />

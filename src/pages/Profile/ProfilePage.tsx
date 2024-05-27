@@ -1,11 +1,14 @@
 import { useSelector } from "react-redux"
 import "./ProfilePage.css"
 import { RootState } from "@/toolkit/Store"
+import Navigationbar from "@/components/Navigation/Navigationbar"
 
 export const ProfilePage = () => {
     const { userData } = useSelector((state: RootState) => state.userR)
   return (
-    <div className="container rounded bg-white mt-5 mb-5">
+    <>
+    <Navigationbar />
+    <div className="container rounded bg-white mt-5 mb-5 pt-5">
     <div className="row">
         <div className="col-md-3 border-right">
             <div className="d-flex flex-column align-items-center text-center p-3 py-5"><img className="rounded-circle mt-5" width="150px" src={userData?.image} /><span className="font-weight-bold">{userData?.username}</span><span className="text-black-50">{userData?.email}</span><span> </span></div>
@@ -38,5 +41,6 @@ export const ProfilePage = () => {
         </div>
     </div>
 </div>
+    </>
   )
 }

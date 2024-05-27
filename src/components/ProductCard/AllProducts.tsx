@@ -72,7 +72,7 @@ const AllProducts = () => {
       {isLoading && <p>Loading...</p>}
       {error && <p>{error}</p>}
       {/* Searching and Sorting here */}
-      <div className="search-container">
+      <div className="search-container pt-5">
         <input
           type="text"
           placeholder="Search Products"

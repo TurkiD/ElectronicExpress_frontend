@@ -24,7 +24,6 @@ export const Index = () => {
   return (
     <BrowserRouter>
       <main>
-        <Navigationbar />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/products" element={<ProductsPage />} />

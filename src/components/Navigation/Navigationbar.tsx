@@ -11,12 +11,12 @@ function Navigationbar() {
     dispatch(LogoutUser())
   }
   return (
-    <section className="position-relative">
-      <nav className="navbar navbar-expand-xl navbar-light bg-light-light py-4">
+    <section className="position-relative text-color">
+      <nav className="navbar navbar-expand-xl background-color py-4">
         <div className="container">
           <a
             className="navbar-brand navbar-nav mx-auto position-absolute top-50 start-50 translate-middle"
-            href="#"
+            href=""
           >
             <img className="img-fluid" src="" alt="" />
           </a>
@@ -43,12 +43,12 @@ function Navigationbar() {
           <div className="collapse navbar-collapse" id="nav05">
             <ul className="navbar-nav me-auto">
               <li className="nav-item me-4">
-                <a className="nav-link" href="/">
+                <a className="nav-link text-white" href="/">
                   Home
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/products">
+                <a className="nav-link text-white" href="/products">
                   Products
                 </a>
               </li>
@@ -56,7 +56,7 @@ function Navigationbar() {
             {userData?.isAdmin && (
               <ul className="navbar-nav me-4">
                 <li className="nav-item me-4">
-                  <a className="nav-link" href="/admin/dashboard">
+                  <a className="nav-link text-white" href="/admin/dashboard">
                     Dashboard
                   </a>
                 </li>
@@ -65,12 +65,12 @@ function Navigationbar() {
             {isLoggedIn && (
               <ul className="navbar-nav me-4">
                 <li className="nav-item me-4">
-                  <a className="nav-link" href="/cart">
+                  <a className="nav-link text-white" href="/cart">
                     Cart
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="/" onClick={handleLogout}>
+                  <a className="nav-link text-white" href="/" onClick={handleLogout}>
                     Logout
                   </a>
                 </li>
@@ -79,7 +79,7 @@ function Navigationbar() {
             {!isLoggedIn && (
               <ul className="navbar-nav me-4">
                 <li className="nav-item">
-                  <a className="nav-link" href="/login">
+                  <a className="nav-link text-white" href="/login">
                     Sign in
                   </a>
                 </li>
@@ -91,7 +91,7 @@ function Navigationbar() {
                   className="btn btn-outline-dark d-flex align-items-center rounded-pill"
                   href="/profile"
                 >
-                  <span className="me-3">{userData?.username}</span>
+                  <span className="me-3 text-white">{userData?.username}</span>
                   <svg
                     className="rotate-45"
                     width="10"
@@ -124,7 +124,7 @@ function Navigationbar() {
                   className="btn btn-outline-dark d-flex align-items-center rounded-pill"
                   href="/register"
                 >
-                  <span className="me-3">Sign up</span>
+                  <span className="me-3 text-white">Sign up</span>
                   <svg
                     className="rotate-45"
                     width="10"
