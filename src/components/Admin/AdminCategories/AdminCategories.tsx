@@ -49,7 +49,7 @@ const AdminCategories = () => {
         </div>
         <div className="col-10 mx-0 px-0">
           {isLoading && <p>Loading...</p>}
-          {error && <p>Error{error}</p>}
+          {error && <p>{error}</p>}
           {/* Create product */}
           <CreateCategory show={modalShow} onHide={() => setModalShow(false)} />
           <br />

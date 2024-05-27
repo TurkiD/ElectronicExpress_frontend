@@ -47,7 +47,7 @@ const AdminUser = () => {
         </div>
         <div className="col-10 mx-0 px-0">
           {isLoading && <p>Loading...</p>}
-          {error && <p>Error{error}</p>}
+          {error && <p>{error}</p>}
           <br />
           {/* Render users */}
           <table>

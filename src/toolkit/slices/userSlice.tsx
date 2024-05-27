@@ -89,7 +89,7 @@ const userSlice = createSlice({
   extraReducers(builder) {
     builder.addCase(fetchUsers.fulfilled, (state, action) => {
       state.users = action.payload.data.items
-      state.totalPages = action.payload.totalPages
+      state.totalPages = action.payload.data.totalPages
       state.error = null
       state.isLoading = false
     })
