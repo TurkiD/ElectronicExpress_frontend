@@ -1,5 +1,6 @@
 import api from "@/api"
 import { LoginFormData, User, UserState } from "@/types/User"
+import { getToken } from "@/utils/localStorage"
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
 const data =
@@ -37,7 +38,12 @@ export const fetchUsers = createAsyncThunk(
       sortBy
     })
 
-    const response = await api.get("/users", { params })
+    const response = await api.get("/users", {
+      params,
+      headers: {
+        Authorization: `Bearer ${getToken()}`
+      }
+    })
     return response.data
   }
 )
@@ -51,6 +57,17 @@ export const loginUser = createAsyncThunk("users/login", async (userData: LoginF
   const response = await api.post(`/login`, userData)
   return response.data
 })
+// export const deleteProduct = createAsyncThunk(
+//   "products/deleteProduct",
+//   async (productId: string) => {
+//     await api.delete(`/products/${productId}`, {
+//       headers: {
+//         Authorization: `Bearer ${getToken()}`
+//       }
+//     })
+//     return productId
+//   }
+// )
 
 const userSlice = createSlice({
   name: "users",
