@@ -4,7 +4,7 @@ import { LogoutUser } from "@/toolkit/slices/userSlice"
 
 import { useDispatch, useSelector } from "react-redux"
 
-function NavigationBar() {
+function Navigationbar() {
   const { isLoggedIn, userData } = useSelector((state: RootState) => state.userR)
   const dispatch: AppDispatch = useDispatch()
   const handleLogout = () => {
@@ -159,4 +159,4 @@ function NavigationBar() {
     </section>
   )
 }
-export default NavigationBar
+export default Navigationbar
