@@ -2,7 +2,7 @@ import AdminCategories from "@/components/Admin/AdminCategories/AdminCategories"
 import AdminOrders from "@/components/Admin/AdminOrders/AdminOrders"
 import AdminProducts from "@/components/Admin/AdminProducts/AdminProducts"
 import AdminUsers from "@/components/Admin/AdminUsers/AdminUsers"
-import Navbar from "@/components/Navigation/NavigationBar"
+import NavigationBar from "@/components/Navigation/NavigationBar"
 import {
   CartPage,
   DashboardPage,
@@ -18,13 +18,12 @@ import { BrowserRouter, Route, Routes } from "react-router-dom"
 import AdminRoute from "./AdminRoute"
 import ProtectedRoute from "./ProtectedRoute"
 import Footer from "@/components/Footer/Footer"
-import Modal from "@/components/Modal/ProductModal/EditProduct"
 
 export const Index = () => {
   return (
     <BrowserRouter>
       <main>
-        <Navbar />
+        <NavigationBar />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="products" element={<ProductsPage />} />
