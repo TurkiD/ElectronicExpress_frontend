@@ -1,5 +1,6 @@
 // User
 export type User = {
+  userID: string
   username: string
   email: string
   password: string
@@ -10,8 +11,8 @@ export type User = {
 }
 
 export type UserState = {
-  // users: User[],
-  // totalPages: number,
+  users: User[],
+  totalPages: number,
   isLoading: boolean
   error: null | string
   userData: User | null

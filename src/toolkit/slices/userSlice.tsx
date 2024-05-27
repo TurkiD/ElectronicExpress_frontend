@@ -8,14 +8,39 @@ const data =
     : []
 
 const initialState: UserState = {
-  //   users: [],
-  //   totalPages: 1,
+  users: [],
+  totalPages: 1,
   error: null,
   isLoading: false,
   userData: data.userData,
   token: data.token,
   isLoggedIn: data.isLoggedIn
 }
+
+export const fetchUsers = createAsyncThunk(
+  "/users/fetchUsers",
+  async ({
+    pageNumber,
+    pageSize,
+    searchTerm,
+    sortBy
+  }: {
+    pageNumber: number
+    pageSize: number
+    searchTerm: string
+    sortBy: string
+  }) => {
+    const params = new URLSearchParams({
+      pageNumber: pageNumber.toString(),
+      pageSize: pageSize.toString(),
+      searchTerm,
+      sortBy
+    })
+
+    const response = await api.get("/users", { params })
+    return response.data
+  }
+)
 
 export const registerUser = createAsyncThunk("users/registerUser", async (newUser: User) => {
   const response = await api.post(`/register`, newUser)
@@ -46,6 +71,12 @@ const userSlice = createSlice({
     }
   },
   extraReducers(builder) {
+    builder.addCase(fetchUsers.fulfilled, (state, action) => {
+      state.users = action.payload.data.items
+      state.totalPages = action.payload.totalPages
+      state.error = null
+      state.isLoading = false
+    })
     builder.addCase(loginUser.fulfilled, (state, action) => {
       state.isLoggedIn = true
       state.userData = action.payload.data.loggedInUser
