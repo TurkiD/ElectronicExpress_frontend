@@ -5,7 +5,7 @@ let baseURL = 'https://sda-online-2-csharp-backend-teamwork-7dbl.onrender.com/ap
 
 if (!isDevelopment) {
   // Update this later when you have a working backend server
-  baseURL = 'https://electronicexpress.netlify.app/api/v1'
+  baseURL = 'https://sda-online-2-csharp-backend-teamwork-7dbl.onrender.com/api/v1'
 }
 
 const api = axios.create({
