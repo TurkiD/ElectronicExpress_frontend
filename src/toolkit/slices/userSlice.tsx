@@ -1,5 +1,5 @@
 import api from "@/api"
-import { LoginFormData, RegisterFormData, User, UserState } from "@/types/User"
+import { LoginFormData, RegisterFormData, UserState } from "@/types/User"
 import { getToken } from "@/utils/localStorage"
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
@@ -48,7 +48,7 @@ export const fetchUsers = createAsyncThunk(
 )
 
 export const registerUser = createAsyncThunk("users/registerUser", async (newUser: RegisterFormData) => {
-  const response = await api.post(`/register`, newUser)
+  const response = await api.post(`/register`, newUser)  
   return response.data
 })
 

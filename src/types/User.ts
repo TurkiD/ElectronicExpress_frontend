@@ -24,7 +24,6 @@ export type RegisterFormData = {
   username: string
   email: string
   password: string
-  image: string
 }
 
 export type LoginFormData = {

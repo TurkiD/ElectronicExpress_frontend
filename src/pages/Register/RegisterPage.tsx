@@ -17,9 +17,9 @@ export const RegisterPage = () => {
     formState: { errors }
   } = useForm<RegisterFormData>()
 
-  const onSubmit: SubmitHandler<RegisterFormData> = async (data) => {
+  const onSubmit: SubmitHandler<RegisterFormData> = async (data) => {    
     try {
-      const response = await dispatch(registerUser(data))
+      const response = await dispatch(registerUser(data))      
       if (response.payload) {
         toast.success(response.payload)
         navigate("/login")

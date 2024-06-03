@@ -6,27 +6,23 @@ const SingleProduct = (props: { product: Product }) => {
   const { product } = props
 
   return (
-    <Link className="text-decoration-none" to={`/product/${product.productID}`}>
-      <section className="card">
-        <img className="card-img" src={product.image} alt={product.productName} />
-        <div className="card-details">
-          <h3 className="card-title">{product.productName}</h3>
-          <section className="card-review">
-            <p>review here</p>
-            <span className="total-review">total review here</span>
-          </section>
-          <section className="card-price">
-            <div className="price">
-              SAR{product.price}
-              {/* <del>SAR{product.price}</del> SAR200 */}
-            </div>
-            <div className="bag">
-              <FaBagShopping className="bag-icon" />
-            </div>
-          </section>
+    <>
+      <div className="card" style={{ width: "18rem" }}>
+        <Link className="text-decoration-none" to={`/product/${product.productID}`}>
+          <img src={product.image} className="card-img-top" alt="..." />
+        </Link>
+        <div className="card-body">
+          <h5 className="card-title">{product.productName}</h5>
+          <p className="card-text">{product.description.substring(0, 30)}...</p>
+          <a href={`/product/${product.productID}`} className="btn btn-primary">
+            View details
+          </a>
+          <a href="#" className="ms-3 btn btn-primary">
+            <FaBagShopping className="bag-icon" />
+          </a>
         </div>
-      </section>
-    </Link>
+      </div>
+    </>
   )
 }
 

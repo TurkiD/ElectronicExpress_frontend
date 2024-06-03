@@ -25,7 +25,7 @@ li {
 }
 
 .card {
-  box-shadow: 2px 4px 8px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 2px 4px 8px 0 rgba(0, 0, 0, 0.1);
   transition: 0.4s ease-in-out;
   margin: 25px;
   border: 2px solid #ededed;
@@ -33,20 +33,20 @@ li {
   cursor: pointer;
 }
 
-.card:hover {
+/* .card:hover {
   transform: translateY(15px);
-}
+} */
 
-.card-img {
+/* .card-img {
   width: 16rem;
   margin-bottom: 1rem;
-}
+} */
 
-.card-title {
+/* .card-title {
   margin-bottom: 1rem;
-}
+} */
 
-.card-review {
+/* .card-review {
   margin-bottom: 1rem;
   display: flex;
 }
@@ -73,7 +73,7 @@ li {
 .btn-container {
   display: flex;
   justify-content: center;
-}
+} */
 
 .search-container {
   display: flex;

@@ -88,7 +88,7 @@ const AllProducts = () => {
       </div>
       {/* Rendering and Filtering here */}
       <div className="products-page-container">
-        <div className="product-sidebar-container">
+        <div className="product-sidebar-container ">
           <h2>Filter by category</h2>
           <ul>
             <li>
