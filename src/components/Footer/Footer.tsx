@@ -1,7 +1,7 @@
-import React from "react"
+import "./Footer.css"
 const Footer = () => 
-<footer className="page-footer font-small blue pt-4 fixed">
-    <div className="container-fluid text-center text-md-left">
+<footer className="page-footer font-small blue pt-4 fixed d-flex flex-column footer-bottom">
+    <div className="container-fluid text-center text-md-left mt-auto">
         <div className="row">
             <div className="col-md-6 mt-md-0 mt-3">
                 <h5 className="text-uppercase">Footer Content</h5>
@@ -32,8 +32,8 @@ const Footer = () =>
         </div>
     </div>
 
-    <div className="footer-copyright text-center py-3">© 202 Copyright:
-        <a href=""> MyStore.com</a>
+    <div className="footer-copyright text-center py-3">© 2024 Copyright:
+        <a href="/"> ElectronicExpress.com</a>
     </div>
 
 </footer>
